@@ -3,9 +3,12 @@ module Main exposing (main)
 import Browser exposing (Document)
 import Browser.Navigation as Nav
 import Css exposing (Color, Style, borderRadius, fontSize, pct, property, px, rem, width)
-import Css.Global
-import Html.Styled exposing (Html, a, br, div, h1, img, nav, span, text)
+import Css.Global exposing (Snippet, global)
+import Html
+import Html.Attributes exposing (class)
+import Html.Styled exposing (Html, a, br, div, h1, img, nav, section, span, text)
 import Html.Styled.Attributes exposing (css, href, src)
+import Markdown
 import Url
 import Url.Parser exposing (Parser, map, oneOf, s)
 
@@ -125,14 +128,14 @@ pageLoader page =
             [ text "Contact" ]
 
         Home ->
-            [ div [ css [ heroLayout ] ] [ heroLeft, heroRight ]
+            [ section [ css [ heroLayout ] ] [ heroLeft, heroRight ]
             ]
 
         CV ->
             [ text "CV" ]
 
         Blog ->
-            [ text "Blog" ]
+            [ blogpost applePie, global [ blogStyles ] ]
 
         NotFound ->
             [ text "404" ]
@@ -186,8 +189,31 @@ navLayout =
         ]
 
 
+blogpost : String -> Html msg
+blogpost text =
+    Markdown.toHtml [ class "blogpost" ] text |> Html.Styled.fromUnstyled
+
+
 
 -- STYLES
+
+
+blogStyles : Snippet
+blogStyles =
+    Css.Global.class "blogpost"
+        [ Css.fontFamilies [ "Roboto Mono" ]
+        , Css.fontSize (rem 1)
+        , Css.Global.children
+            [ Css.Global.p
+                [ Css.Global.children
+                    [ Css.Global.a
+                        [ Css.textDecoration Css.none
+                        , Css.color colors.green
+                        ]
+                    ]
+                ]
+            ]
+        ]
 
 
 colors : { darkPurple : Color, green : Color, pink : Color, white : Color }
@@ -287,3 +313,24 @@ headerArea =
     Css.batch
         [ property "grid-area" "header"
         ]
+
+
+applePie : String
+applePie =
+    """
+# Apple Pie Recipe
+
+1. Invent the universe.
+2. Bake an apple pie.
+
+## Allergies
+- Cake
+- Eggs
+- Apples
+
+> My placeholder text, I think, is going to end up being very good with women. 
+Look at that text! Would anyone use that? Can you imagine that, the text of your next webpage?! 
+Lorem Ipsum is the single greatest threat. We are not - we are not keeping up with other websites.
+
+The quote above is from [Trump Ipsum](https://trumpipsum.net)
+"""
