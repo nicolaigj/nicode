@@ -5898,12 +5898,49 @@ var $elm$url$Url$Parser$parse = F2(
 					$elm$core$Basics$identity)));
 	});
 var $author$project$Main$Blog = {$: 'Blog'};
+var $author$project$Main$BlogPost = function (a) {
+	return {$: 'BlogPost', a: a};
+};
 var $author$project$Main$CV = {$: 'CV'};
 var $author$project$Main$Contact = {$: 'Contact'};
 var $author$project$Main$Home = {$: 'Home'};
 var $elm$url$Url$Parser$Parser = function (a) {
 	return {$: 'Parser', a: a};
 };
+var $elm$url$Url$Parser$custom = F2(
+	function (tipe, stringToSomething) {
+		return $elm$url$Url$Parser$Parser(
+			function (_v0) {
+				var visited = _v0.visited;
+				var unvisited = _v0.unvisited;
+				var params = _v0.params;
+				var frag = _v0.frag;
+				var value = _v0.value;
+				if (!unvisited.b) {
+					return _List_Nil;
+				} else {
+					var next = unvisited.a;
+					var rest = unvisited.b;
+					var _v2 = stringToSomething(next);
+					if (_v2.$ === 'Just') {
+						var nextValue = _v2.a;
+						return _List_fromArray(
+							[
+								A5(
+								$elm$url$Url$Parser$State,
+								A2($elm$core$List$cons, next, visited),
+								rest,
+								params,
+								frag,
+								value(nextValue))
+							]);
+					} else {
+						return _List_Nil;
+					}
+				}
+			});
+	});
+var $elm$url$Url$Parser$int = A2($elm$url$Url$Parser$custom, 'NUMBER', $elm$core$String$toInt);
 var $elm$url$Url$Parser$mapState = F2(
 	function (func, _v0) {
 		var visited = _v0.visited;
@@ -5990,6 +6027,18 @@ var $elm$url$Url$Parser$s = function (str) {
 			}
 		});
 };
+var $elm$url$Url$Parser$slash = F2(
+	function (_v0, _v1) {
+		var parseBefore = _v0.a;
+		var parseAfter = _v1.a;
+		return $elm$url$Url$Parser$Parser(
+			function (state) {
+				return A2(
+					$elm$core$List$concatMap,
+					parseAfter,
+					parseBefore(state));
+			});
+	});
 var $elm$url$Url$Parser$top = $elm$url$Url$Parser$Parser(
 	function (state) {
 		return _List_fromArray(
@@ -6003,6 +6052,13 @@ var $author$project$Main$routeParser = $elm$url$Url$Parser$oneOf(
 			$elm$url$Url$Parser$map,
 			$author$project$Main$Blog,
 			$elm$url$Url$Parser$s('blog')),
+			A2(
+			$elm$url$Url$Parser$map,
+			$author$project$Main$BlogPost,
+			A2(
+				$elm$url$Url$Parser$slash,
+				$elm$url$Url$Parser$s('blog'),
+				$elm$url$Url$Parser$int)),
 			A2(
 			$elm$url$Url$Parser$map,
 			$author$project$Main$Contact,
@@ -8645,7 +8701,39 @@ var $author$project$Main$pageLayout = $rtfeldman$elm_css$Css$batch(
 			A2($rtfeldman$elm_css$Css$property, 'grid-template-columns', '1fr minmax(320px, 1000px) 1fr'),
 			A2($rtfeldman$elm_css$Css$property, 'grid-template-areas', '\'gutterLeft content gutterRight\'')
 		]));
-var $author$project$Main$applePie = '\n# Apple Pie Recipe\n\n1. Invent the universe.\n2. Bake an apple pie.\n\n## Allergies\n- Cake\n- Eggs\n- Apples\n\n> My placeholder text, I think, is going to end up being very good with women. \nLook at that text! Would anyone use that? Can you imagine that, the text of your next webpage?! \nLorem Ipsum is the single greatest threat. We are not - we are not keeping up with other websites.\n\nThe quote above is from [Trump Ipsum](https://trumpipsum.net)\n';
+var $author$project$Main$BlogPostInfo = F3(
+	function (title, body, image) {
+		return {body: body, image: image, title: title};
+	});
+var $elm$url$Url$Builder$toQueryPair = function (_v0) {
+	var key = _v0.a;
+	var value = _v0.b;
+	return key + ('=' + value);
+};
+var $elm$url$Url$Builder$toQuery = function (parameters) {
+	if (!parameters.b) {
+		return '';
+	} else {
+		return '?' + A2(
+			$elm$core$String$join,
+			'&',
+			A2($elm$core$List$map, $elm$url$Url$Builder$toQueryPair, parameters));
+	}
+};
+var $elm$url$Url$Builder$absolute = F2(
+	function (pathSegments, parameters) {
+		return '/' + (A2($elm$core$String$join, '/', pathSegments) + $elm$url$Url$Builder$toQuery(parameters));
+	});
+var $author$project$Main$applePie = A3(
+	$author$project$Main$BlogPostInfo,
+	'Apple Pie Recipe',
+	'\r\n# Apple Pie Recipe\r\n\r\n1. Invent the universe.\r\n2. Bake an apple pie.\r\n\r\n## Allergies\r\n- Cake\r\n- Eggs\r\n- Apples\r\n\r\n> My placeholder text, I think, is going to end up being very good with women. \r\nLook at that text! Would anyone use that? Can you imagine that, the text of your next webpage?! \r\nLorem Ipsum is the single greatest threat. We are not - we are not keeping up with other websites.\r\n\r\nThe quote above is from [Trump Ipsum](https://trumpipsum.net)\r\n',
+	$elm$url$Url$fromString(
+		A2(
+			$elm$url$Url$Builder$absolute,
+			_List_fromArray(
+				['assets', 'applePie.jpg']),
+			_List_Nil)));
 var $rtfeldman$elm_css$Css$Global$a = $rtfeldman$elm_css$Css$Global$typeSelector('a');
 var $rtfeldman$elm_css$Css$Structure$Child = {$: 'Child'};
 var $rtfeldman$elm_css$Css$Preprocess$NestSnippet = F2(
@@ -8668,30 +8756,34 @@ var $rtfeldman$elm_css$Css$Global$class = F2(
 					])));
 	});
 var $rtfeldman$elm_css$Css$Global$p = $rtfeldman$elm_css$Css$Global$typeSelector('p');
-var $author$project$Main$blogStyles = A2(
-	$rtfeldman$elm_css$Css$Global$class,
-	'blogpost',
+var $author$project$Main$blogStyles = $rtfeldman$elm_css$Css$Global$global(
 	_List_fromArray(
 		[
-			$rtfeldman$elm_css$Css$fontFamilies(
-			_List_fromArray(
-				['Roboto Mono'])),
-			$rtfeldman$elm_css$Css$fontSize(
-			$rtfeldman$elm_css$Css$rem(1)),
-			$rtfeldman$elm_css$Css$Global$children(
+			A2(
+			$rtfeldman$elm_css$Css$Global$class,
+			'blogpost',
 			_List_fromArray(
 				[
-					$rtfeldman$elm_css$Css$Global$p(
+					$rtfeldman$elm_css$Css$fontFamilies(
+					_List_fromArray(
+						['Roboto Mono'])),
+					$rtfeldman$elm_css$Css$fontSize(
+					$rtfeldman$elm_css$Css$rem(1)),
+					$rtfeldman$elm_css$Css$Global$children(
 					_List_fromArray(
 						[
-							$rtfeldman$elm_css$Css$Global$children(
+							$rtfeldman$elm_css$Css$Global$p(
 							_List_fromArray(
 								[
-									$rtfeldman$elm_css$Css$Global$a(
+									$rtfeldman$elm_css$Css$Global$children(
 									_List_fromArray(
 										[
-											$rtfeldman$elm_css$Css$textDecoration($rtfeldman$elm_css$Css$none),
-											$rtfeldman$elm_css$Css$color($author$project$Main$colors.green)
+											$rtfeldman$elm_css$Css$Global$a(
+											_List_fromArray(
+												[
+													$rtfeldman$elm_css$Css$textDecoration($rtfeldman$elm_css$Css$none),
+													$rtfeldman$elm_css$Css$color($author$project$Main$colors.green)
+												]))
 										]))
 								]))
 						]))
@@ -8722,7 +8814,7 @@ var $elm$core$Maybe$isJust = function (maybe) {
 };
 var $elm_explorations$markdown$Markdown$toHtmlWith = _Markdown_toHtml;
 var $elm_explorations$markdown$Markdown$toHtml = $elm_explorations$markdown$Markdown$toHtmlWith($elm_explorations$markdown$Markdown$defaultOptions);
-var $author$project$Main$blogpost = function (text) {
+var $author$project$Main$blogpost = function (blogPost) {
 	return $rtfeldman$elm_css$Html$Styled$fromUnstyled(
 		A2(
 			$elm_explorations$markdown$Markdown$toHtml,
@@ -8730,7 +8822,7 @@ var $author$project$Main$blogpost = function (text) {
 				[
 					$elm$html$Html$Attributes$class('blogpost')
 				]),
-			text));
+			blogPost.body));
 };
 var $author$project$Main$heroLayout = $rtfeldman$elm_css$Css$batch(
 	_List_fromArray(
@@ -8816,7 +8908,7 @@ var $author$project$Main$heroRight = A2(
 			_List_Nil,
 			_List_fromArray(
 				[
-					$rtfeldman$elm_css$Html$Styled$text('Hi! I’m Nicolai, a developer with a passion for people and technology.\n            I know how to exit vim.')
+					$rtfeldman$elm_css$Html$Styled$text('Hi! I’m Nicolai, a developer with a passion for people and technology.\r\n            I know how to exit vim.')
 				]))
 		]));
 var $rtfeldman$elm_css$Html$Styled$section = $rtfeldman$elm_css$Html$Styled$node('section');
@@ -8850,9 +8942,14 @@ var $author$project$Main$pageLoader = function (page) {
 			return _List_fromArray(
 				[
 					$author$project$Main$blogpost($author$project$Main$applePie),
-					$rtfeldman$elm_css$Css$Global$global(
-					_List_fromArray(
-						[$author$project$Main$blogStyles]))
+					$author$project$Main$blogStyles
+				]);
+		case 'BlogPost':
+			var i = page.a;
+			return _List_fromArray(
+				[
+					$author$project$Main$blogpost($author$project$Main$applePie),
+					$author$project$Main$blogStyles
 				]);
 		default:
 			return _List_fromArray(

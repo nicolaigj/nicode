@@ -10,7 +10,8 @@ import Html.Styled exposing (Html, a, br, div, h1, img, nav, section, span, text
 import Html.Styled.Attributes exposing (css, href, src)
 import Markdown
 import Url
-import Url.Parser exposing (Parser, map, oneOf, s)
+import Url.Builder exposing (absolute)
+import Url.Parser exposing ((</>), Parser, int, map, oneOf, s)
 
 
 
@@ -40,6 +41,13 @@ type alias Model =
     }
 
 
+type alias BlogPostInfo =
+    { title : String
+    , body : String
+    , image : Maybe Url.Url
+    }
+
+
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url key =
     ( Model key url (fromUrl url), Cmd.none )
@@ -53,6 +61,7 @@ type Msg
 type Route
     = Home
     | Blog
+    | BlogPost Int
     | Contact
     | CV
     | NotFound
@@ -63,6 +72,7 @@ routeParser =
     oneOf
         [ map Home Url.Parser.top
         , map Blog (s "blog")
+        , map BlogPost (s "blog" </> int)
         , map Contact (s "contact")
         , map CV (s "cv")
         ]
@@ -135,7 +145,10 @@ pageLoader page =
             [ text "CV" ]
 
         Blog ->
-            [ blogpost applePie, global [ blogStyles ] ]
+            [ bodyToMarkdown applePie.body, blogStyles ]
+
+        BlogPost i ->
+            [ bodyToMarkdown applePie.body, blogStyles ]
 
         NotFound ->
             [ text "404" ]
@@ -189,26 +202,28 @@ navLayout =
         ]
 
 
-blogpost : String -> Html msg
-blogpost text =
-    Markdown.toHtml [ class "blogpost" ] text |> Html.Styled.fromUnstyled
+bodyToMarkdown : String -> Html msg
+bodyToMarkdown body =
+    Markdown.toHtml [ class "blogpost" ] body |> Html.Styled.fromUnstyled
 
 
 
 -- STYLES
 
 
-blogStyles : Snippet
+blogStyles : Html msg
 blogStyles =
-    Css.Global.class "blogpost"
-        [ Css.fontFamilies [ "Roboto Mono" ]
-        , Css.fontSize (rem 1)
-        , Css.Global.children
-            [ Css.Global.p
-                [ Css.Global.children
-                    [ Css.Global.a
-                        [ Css.textDecoration Css.none
-                        , Css.color colors.green
+    global
+        [ Css.Global.class "blogpost"
+            [ Css.fontFamilies [ "Roboto Mono" ]
+            , Css.fontSize (rem 1)
+            , Css.Global.children
+                [ Css.Global.p
+                    [ Css.Global.children
+                        [ Css.Global.a
+                            [ Css.textDecoration Css.none
+                            , Css.color colors.green
+                            ]
                         ]
                     ]
                 ]
@@ -315,9 +330,10 @@ headerArea =
         ]
 
 
-applePie : String
+applePie : BlogPostInfo
 applePie =
-    """
+    BlogPostInfo "Apple Pie Recipe"
+        """
 # Apple Pie Recipe
 
 1. Invent the universe.
@@ -334,3 +350,8 @@ Lorem Ipsum is the single greatest threat. We are not - we are not keeping up wi
 
 The quote above is from [Trump Ipsum](https://trumpipsum.net)
 """
+        (absolute
+            [ "assets", "applePie.jpg" ]
+            []
+            |> Url.fromString
+        )
