@@ -2,9 +2,29 @@ module Main exposing (main)
 
 import Browser exposing (Document)
 import Browser.Navigation as Nav
-import Css exposing (Color, Style, borderRadius, fontSize, pct, property, px, rem, width)
+import Css
+    exposing
+        ( Color
+        , Style
+        , active
+        , border3
+        , borderBottom3
+        , borderRadius
+        , fontSize
+        , fontStyle
+        , marginLeft
+        , marginRight
+        , marginTop
+        , padding
+        , pct
+        , property
+        , px
+        , rem
+        , solid
+        , width
+        )
 import Css.Global
-import Html.Styled exposing (Html, a, br, div, h1, img, nav, span, text)
+import Html.Styled exposing (Html, a, br, div, h1, img, nav, section, span, text)
 import Html.Styled.Attributes exposing (css, href, src)
 import Url
 import Url.Parser exposing (Parser, map, oneOf, s)
@@ -35,6 +55,39 @@ type alias Model =
     , url : Url.Url
     , page : Route
     }
+
+
+type alias CvEntry =
+    { company : String
+    , position : String
+    , description : String
+    , fromDate : String
+    , toDate : String
+    , technologies : List String
+    }
+
+
+cvEntries : List CvEntry
+cvEntries =
+    [ CvEntry "Nurofy"
+        "Team lead"
+        """Some people have an ability to write placeholder text... It's an art you're 
+            basically born with. 
+            You either have it or you don't. All of the words in Lorem Ipsum have flirted with me - consciously or 
+            unconsciously. That's to be expected."""
+        "2019-02"
+        "2020-12"
+        [ ".NET Core", "SQL", "Svelte", "Sapper" ]
+    , CvEntry "Nurofy"
+        "Team lead"
+        """Some people have an ability to write placeholder text... It's an art you're 
+            basically born with. 
+            You either have it or you don't. All of the words in Lorem Ipsum have flirted with me - consciously or 
+            unconsciously. That's to be expected."""
+        "2019-02"
+        "2020-12"
+        [ ".NET Core", "SQL", "Svelte", "Sapper" ]
+    ]
 
 
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
@@ -118,7 +171,7 @@ view model =
     }
 
 
-pageLoader : Route -> List (Html msg)
+pageLoader : Route -> List (Html Msg)
 pageLoader page =
     case page of
         Contact ->
@@ -129,7 +182,7 @@ pageLoader page =
             ]
 
         CV ->
-            [ text "CV" ]
+            h1 [] [ text "Experience" ] :: cvSection
 
         Blog ->
             [ text "Blog" ]
@@ -170,9 +223,45 @@ heroRight =
     div [ css [ heroTextStyle ] ]
         [ h1 []
             [ text
-                """Hi! I’m Nicolai, a developer with a passion for people and technology.
-            I know how to exit vim."""
+                """Hi! I’m Nicolai, a developer with a passion for people and technology."""
             ]
+        ]
+
+
+cvEntrySection : CvEntry -> Html Msg
+cvEntrySection entry =
+    section [ css [ cvEntryStyle ] ]
+        [ text (entry.fromDate ++ "-" ++ entry.toDate)
+        , br [] []
+        , h1 [] [ text (entry.position ++ " at " ++ entry.company)]
+        , text entry.description
+        , br [] []
+        , text """[ .NET Core, SQL, Svelte, Sapper ]"""
+        ]
+
+
+technologies : List String -> String -> String
+technologies t s =
+    case t of 
+        [] ->
+            s
+        first::[] ->
+            s ++ ", " ++ first ++ "]"
+        first::rest ->
+            technologies rest (s ++ ", " ++ first)
+
+cvSection : List (Html Msg)
+cvSection = 
+    List.map cvEntrySection cvEntries
+
+cvEntryStyle : Style
+cvEntryStyle =
+    Css.batch
+        [ marginTop (px 100)
+        , border3 (px 1) solid colors.green
+        , padding (px 15)
+        , fontFamily
+        , textBase
         ]
 
 
@@ -205,10 +294,20 @@ navItemStyle =
         [ Css.textDecoration Css.none
         , Css.color colors.green
         , Css.marginRight (px 10)
-        , Css.fontFamilies [ "Roboto Mono" ]
         , Css.fontSize (rem 1.2)
         , Css.marginLeft (px 3)
+        , active [ borderBottom3 (px 1) solid colors.green ]
         ]
+
+
+fontFamily : Style
+fontFamily =
+    Css.fontFamilies [ "Roboto Mono" ]
+
+
+textBase : Style
+textBase =
+    Css.fontSize (rem 1)
 
 
 bracketStyle : Style
@@ -227,6 +326,7 @@ globalStyle =
             [ Css.margin (px 0)
             , Css.padding (px 0)
             , Css.backgroundColor colors.darkPurple
+            , fontFamily
             ]
         ]
 
