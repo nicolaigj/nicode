@@ -8467,6 +8467,26 @@ var $rtfeldman$elm_css$Css$Global$typeSelector = F2(
 				]));
 	});
 var $rtfeldman$elm_css$Css$Global$body = $rtfeldman$elm_css$Css$Global$typeSelector('body');
+var $rtfeldman$elm_css$Css$stringsToValue = function (list) {
+	return $elm$core$List$isEmpty(list) ? {value: 'none'} : {
+		value: A2(
+			$elm$core$String$join,
+			', ',
+			A2(
+				$elm$core$List$map,
+				function (s) {
+					return s;
+				},
+				list))
+	};
+};
+var $rtfeldman$elm_css$Css$fontFamilies = A2(
+	$elm$core$Basics$composeL,
+	$rtfeldman$elm_css$Css$prop1('font-family'),
+	$rtfeldman$elm_css$Css$stringsToValue);
+var $author$project$Main$fontFamily = $rtfeldman$elm_css$Css$fontFamilies(
+	_List_fromArray(
+		['Roboto Mono']));
 var $elm$virtual_dom$VirtualDom$node = function (tag) {
 	return _VirtualDom_node(
 		_VirtualDom_noScript(tag));
@@ -8502,7 +8522,8 @@ var $author$project$Main$globalStyle = $rtfeldman$elm_css$Css$Global$global(
 					$rtfeldman$elm_css$Css$px(0)),
 					$rtfeldman$elm_css$Css$padding(
 					$rtfeldman$elm_css$Css$px(0)),
-					$rtfeldman$elm_css$Css$backgroundColor($author$project$Main$colors.darkPurple)
+					$rtfeldman$elm_css$Css$backgroundColor($author$project$Main$colors.darkPurple),
+					$author$project$Main$fontFamily
 				]))
 		]));
 var $rtfeldman$elm_css$Html$Styled$a = $rtfeldman$elm_css$Html$Styled$node('a');
@@ -8542,24 +8563,32 @@ var $rtfeldman$elm_css$Html$Styled$Attributes$href = function (url) {
 	return A2($rtfeldman$elm_css$Html$Styled$Attributes$stringProperty, 'href', url);
 };
 var $rtfeldman$elm_css$Html$Styled$nav = $rtfeldman$elm_css$Html$Styled$node('nav');
-var $rtfeldman$elm_css$Css$stringsToValue = function (list) {
-	return $elm$core$List$isEmpty(list) ? {value: 'none'} : {
-		value: A2(
-			$elm$core$String$join,
-			', ',
-			A2(
-				$elm$core$List$map,
-				function (s) {
-					return s;
-				},
-				list))
-	};
+var $rtfeldman$elm_css$Css$Preprocess$ExtendSelector = F2(
+	function (a, b) {
+		return {$: 'ExtendSelector', a: a, b: b};
+	});
+var $rtfeldman$elm_css$Css$Structure$PseudoClassSelector = function (a) {
+	return {$: 'PseudoClassSelector', a: a};
 };
-var $rtfeldman$elm_css$Css$fontFamilies = A2(
-	$elm$core$Basics$composeL,
-	$rtfeldman$elm_css$Css$prop1('font-family'),
-	$rtfeldman$elm_css$Css$stringsToValue);
+var $rtfeldman$elm_css$Css$pseudoClass = function (_class) {
+	return $rtfeldman$elm_css$Css$Preprocess$ExtendSelector(
+		$rtfeldman$elm_css$Css$Structure$PseudoClassSelector(_class));
+};
+var $rtfeldman$elm_css$Css$active = $rtfeldman$elm_css$Css$pseudoClass('active');
+var $rtfeldman$elm_css$Css$prop3 = F4(
+	function (key, argA, argB, argC) {
+		return A2(
+			$rtfeldman$elm_css$Css$property,
+			key,
+			A2(
+				$elm$core$String$join,
+				' ',
+				_List_fromArray(
+					[argA.value, argB.value, argC.value])));
+	});
+var $rtfeldman$elm_css$Css$borderBottom3 = $rtfeldman$elm_css$Css$prop3('border-bottom');
 var $rtfeldman$elm_css$Css$none = {backgroundImage: $rtfeldman$elm_css$Css$Structure$Compatible, blockAxisOverflow: $rtfeldman$elm_css$Css$Structure$Compatible, borderStyle: $rtfeldman$elm_css$Css$Structure$Compatible, cursor: $rtfeldman$elm_css$Css$Structure$Compatible, display: $rtfeldman$elm_css$Css$Structure$Compatible, hoverCapability: $rtfeldman$elm_css$Css$Structure$Compatible, inlineAxisOverflow: $rtfeldman$elm_css$Css$Structure$Compatible, keyframes: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNone: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNoneOrMinMaxDimension: $rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNumberOrAutoOrNoneOrContent: $rtfeldman$elm_css$Css$Structure$Compatible, listStyleType: $rtfeldman$elm_css$Css$Structure$Compatible, listStyleTypeOrPositionOrImage: $rtfeldman$elm_css$Css$Structure$Compatible, none: $rtfeldman$elm_css$Css$Structure$Compatible, outline: $rtfeldman$elm_css$Css$Structure$Compatible, pointerDevice: $rtfeldman$elm_css$Css$Structure$Compatible, pointerEvents: $rtfeldman$elm_css$Css$Structure$Compatible, resize: $rtfeldman$elm_css$Css$Structure$Compatible, scriptingSupport: $rtfeldman$elm_css$Css$Structure$Compatible, textDecorationLine: $rtfeldman$elm_css$Css$Structure$Compatible, textTransform: $rtfeldman$elm_css$Css$Structure$Compatible, touchAction: $rtfeldman$elm_css$Css$Structure$Compatible, transform: $rtfeldman$elm_css$Css$Structure$Compatible, updateFrequency: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'none'};
+var $rtfeldman$elm_css$Css$solid = {borderStyle: $rtfeldman$elm_css$Css$Structure$Compatible, textDecorationStyle: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'solid'};
 var $rtfeldman$elm_css$Css$textDecoration = $rtfeldman$elm_css$Css$prop1('text-decoration');
 var $author$project$Main$navItemStyle = $rtfeldman$elm_css$Css$batch(
 	_List_fromArray(
@@ -8568,13 +8597,19 @@ var $author$project$Main$navItemStyle = $rtfeldman$elm_css$Css$batch(
 			$rtfeldman$elm_css$Css$color($author$project$Main$colors.green),
 			$rtfeldman$elm_css$Css$marginRight(
 			$rtfeldman$elm_css$Css$px(10)),
-			$rtfeldman$elm_css$Css$fontFamilies(
-			_List_fromArray(
-				['Roboto Mono'])),
 			$rtfeldman$elm_css$Css$fontSize(
 			$rtfeldman$elm_css$Css$rem(1.2)),
 			$rtfeldman$elm_css$Css$marginLeft(
-			$rtfeldman$elm_css$Css$px(3))
+			$rtfeldman$elm_css$Css$px(3)),
+			$rtfeldman$elm_css$Css$active(
+			_List_fromArray(
+				[
+					A3(
+					$rtfeldman$elm_css$Css$borderBottom3,
+					$rtfeldman$elm_css$Css$px(1),
+					$rtfeldman$elm_css$Css$solid,
+					$author$project$Main$colors.green)
+				]))
 		]));
 var $author$project$Main$navLayout = $rtfeldman$elm_css$Css$batch(
 	_List_fromArray(
@@ -8701,6 +8736,7 @@ var $author$project$Main$pageLayout = $rtfeldman$elm_css$Css$batch(
 			A2($rtfeldman$elm_css$Css$property, 'grid-template-columns', '1fr minmax(320px, 1000px) 1fr'),
 			A2($rtfeldman$elm_css$Css$property, 'grid-template-areas', '\'gutterLeft content gutterRight\'')
 		]));
+
 var $author$project$Main$BlogPostInfo = F3(
 	function (title, body, image) {
 		return {body: body, image: image, title: title};
@@ -8824,6 +8860,79 @@ var $author$project$Main$blogpost = function (blogPost) {
 				]),
 			blogPost.body));
 };
+
+var $author$project$Main$CvEntry = F6(
+	function (company, position, description, fromDate, toDate, technologies) {
+		return {company: company, description: description, fromDate: fromDate, position: position, technologies: technologies, toDate: toDate};
+	});
+var $author$project$Main$cvEntries = _List_fromArray(
+	[
+		A6(
+		$author$project$Main$CvEntry,
+		'Nurofy',
+		'Team lead',
+		'Some people have an ability to write placeholder text... It\'s an art you\'re \r\n            basically born with. \r\n            You either have it or you don\'t. All of the words in Lorem Ipsum have flirted with me - consciously or \r\n            unconsciously. That\'s to be expected.',
+		'2019-02',
+		'2020-12',
+		_List_fromArray(
+			['.NET Core', 'SQL', 'Svelte', 'Sapper'])),
+		A6(
+		$author$project$Main$CvEntry,
+		'Nurofy',
+		'Team lead',
+		'Some people have an ability to write placeholder text... It\'s an art you\'re \r\n            basically born with. \r\n            You either have it or you don\'t. All of the words in Lorem Ipsum have flirted with me - consciously or \r\n            unconsciously. That\'s to be expected.',
+		'2019-02',
+		'2020-12',
+		_List_fromArray(
+			['.NET Core', 'SQL', 'Svelte', 'Sapper']))
+	]);
+var $rtfeldman$elm_css$Css$border3 = $rtfeldman$elm_css$Css$prop3('border');
+var $rtfeldman$elm_css$Css$marginTop = $rtfeldman$elm_css$Css$prop1('margin-top');
+var $author$project$Main$textBase = $rtfeldman$elm_css$Css$fontSize(
+	$rtfeldman$elm_css$Css$rem(1));
+var $author$project$Main$cvEntryStyle = $rtfeldman$elm_css$Css$batch(
+	_List_fromArray(
+		[
+			$rtfeldman$elm_css$Css$marginTop(
+			$rtfeldman$elm_css$Css$px(100)),
+			A3(
+			$rtfeldman$elm_css$Css$border3,
+			$rtfeldman$elm_css$Css$px(1),
+			$rtfeldman$elm_css$Css$solid,
+			$author$project$Main$colors.green),
+			$rtfeldman$elm_css$Css$padding(
+			$rtfeldman$elm_css$Css$px(15)),
+			$author$project$Main$fontFamily,
+			$author$project$Main$textBase
+		]));
+var $rtfeldman$elm_css$Html$Styled$section = $rtfeldman$elm_css$Html$Styled$node('section');
+var $author$project$Main$cvEntrySection = function (entry) {
+	return A2(
+		$rtfeldman$elm_css$Html$Styled$section,
+		_List_fromArray(
+			[
+				$rtfeldman$elm_css$Html$Styled$Attributes$css(
+				_List_fromArray(
+					[$author$project$Main$cvEntryStyle]))
+			]),
+		_List_fromArray(
+			[
+				$rtfeldman$elm_css$Html$Styled$text(entry.fromDate + ('-' + entry.toDate)),
+				A2($rtfeldman$elm_css$Html$Styled$br, _List_Nil, _List_Nil),
+				A2(
+				$rtfeldman$elm_css$Html$Styled$h1,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$rtfeldman$elm_css$Html$Styled$text(entry.position + (' at ' + entry.company))
+					])),
+				$rtfeldman$elm_css$Html$Styled$text(entry.description),
+				A2($rtfeldman$elm_css$Html$Styled$br, _List_Nil, _List_Nil),
+				$rtfeldman$elm_css$Html$Styled$text('[ .NET Core, SQL, Svelte, Sapper ]')
+			]));
+};
+var $author$project$Main$cvSection = A2($elm$core$List$map, $author$project$Main$cvEntrySection, $author$project$Main$cvEntries);
+
 var $author$project$Main$heroLayout = $rtfeldman$elm_css$Css$batch(
 	_List_fromArray(
 		[
@@ -8873,7 +8982,6 @@ var $rtfeldman$elm_css$Css$fontWeight = function (_v0) {
 	return A2($rtfeldman$elm_css$Css$property, 'font-weight', value);
 };
 var $rtfeldman$elm_css$Css$marginBottom = $rtfeldman$elm_css$Css$prop1('margin-bottom');
-var $rtfeldman$elm_css$Css$marginTop = $rtfeldman$elm_css$Css$prop1('margin-top');
 var $rtfeldman$elm_css$Css$normal = {featureTagValue: $rtfeldman$elm_css$Css$Structure$Compatible, fontStyle: $rtfeldman$elm_css$Css$Structure$Compatible, fontWeight: $rtfeldman$elm_css$Css$Structure$Compatible, overflowWrap: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'normal', whiteSpace: $rtfeldman$elm_css$Css$Structure$Compatible};
 var $author$project$Main$heroTextStyle = $rtfeldman$elm_css$Css$batch(
 	_List_fromArray(
@@ -8908,7 +9016,7 @@ var $author$project$Main$heroRight = A2(
 			_List_Nil,
 			_List_fromArray(
 				[
-					$rtfeldman$elm_css$Html$Styled$text('Hi! I’m Nicolai, a developer with a passion for people and technology.\r\n            I know how to exit vim.')
+					$rtfeldman$elm_css$Html$Styled$text('Hi! I’m Nicolai, a developer with a passion for people and technology.')
 				]))
 		]));
 var $rtfeldman$elm_css$Html$Styled$section = $rtfeldman$elm_css$Html$Styled$node('section');
@@ -8934,10 +9042,16 @@ var $author$project$Main$pageLoader = function (page) {
 						[$author$project$Main$heroLeft, $author$project$Main$heroRight]))
 				]);
 		case 'CV':
-			return _List_fromArray(
-				[
-					$rtfeldman$elm_css$Html$Styled$text('CV')
-				]);
+			return A2(
+				$elm$core$List$cons,
+				A2(
+					$rtfeldman$elm_css$Html$Styled$h1,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('Experience')
+						])),
+				$author$project$Main$cvSection);
 		case 'Blog':
 			return _List_fromArray(
 				[
