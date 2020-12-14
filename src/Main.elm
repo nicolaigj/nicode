@@ -2,6 +2,9 @@ module Main exposing (main)
 
 import Browser exposing (Document)
 import Browser.Navigation as Nav
+import Css.Global exposing (Snippet, global)
+import Html
+import Html.Attributes exposing (class)
 import Css
     exposing
         ( Color
@@ -23,11 +26,12 @@ import Css
         , solid
         , width
         )
-import Css.Global
 import Html.Styled exposing (Html, a, br, div, h1, img, nav, section, span, text)
 import Html.Styled.Attributes exposing (css, href, src)
+import Markdown
 import Url
-import Url.Parser exposing (Parser, map, oneOf, s)
+import Url.Builder exposing (absolute)
+import Url.Parser exposing ((</>), Parser, int, map, oneOf, s)
 
 
 
@@ -54,6 +58,13 @@ type alias Model =
     { key : Nav.Key
     , url : Url.Url
     , page : Route
+    }
+
+
+type alias BlogPostInfo =
+    { title : String
+    , body : String
+    , image : Maybe Url.Url
     }
 
 
@@ -90,6 +101,7 @@ cvEntries =
     ]
 
 
+
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url key =
     ( Model key url (fromUrl url), Cmd.none )
@@ -103,6 +115,7 @@ type Msg
 type Route
     = Home
     | Blog
+    | BlogPost Int
     | Contact
     | CV
     | NotFound
@@ -113,6 +126,7 @@ routeParser =
     oneOf
         [ map Home Url.Parser.top
         , map Blog (s "blog")
+        , map BlogPost (s "blog" </> int)
         , map Contact (s "contact")
         , map CV (s "cv")
         ]
@@ -178,14 +192,17 @@ pageLoader page =
             [ text "Contact" ]
 
         Home ->
-            [ div [ css [ heroLayout ] ] [ heroLeft, heroRight ]
+            [ section [ css [ heroLayout ] ] [ heroLeft, heroRight ]
             ]
 
         CV ->
             h1 [] [ text "Experience" ] :: cvSection
 
         Blog ->
-            [ text "Blog" ]
+            [ bodyToMarkdown applePie.body, blogStyles ]
+
+        BlogPost i ->
+            [ bodyToMarkdown applePie.body, blogStyles ]
 
         NotFound ->
             [ text "404" ]
@@ -275,8 +292,33 @@ navLayout =
         ]
 
 
+bodyToMarkdown : String -> Html msg
+bodyToMarkdown body =
+    Markdown.toHtml [ class "blogpost" ] body |> Html.Styled.fromUnstyled
+
+
 
 -- STYLES
+
+
+blogStyles : Html msg
+blogStyles =
+    global
+        [ Css.Global.class "blogpost"
+            [ Css.fontFamilies [ "Roboto Mono" ]
+            , Css.fontSize (rem 1)
+            , Css.Global.children
+                [ Css.Global.p
+                    [ Css.Global.children
+                        [ Css.Global.a
+                            [ Css.textDecoration Css.none
+                            , Css.color colors.green
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
 
 
 colors : { darkPurple : Color, green : Color, pink : Color, white : Color }
@@ -387,3 +429,30 @@ headerArea =
     Css.batch
         [ property "grid-area" "header"
         ]
+
+
+applePie : BlogPostInfo
+applePie =
+    BlogPostInfo "Apple Pie Recipe"
+        """
+# Apple Pie Recipe
+
+1. Invent the universe.
+2. Bake an apple pie.
+
+## Allergies
+- Cake
+- Eggs
+- Apples
+
+> My placeholder text, I think, is going to end up being very good with women. 
+Look at that text! Would anyone use that? Can you imagine that, the text of your next webpage?! 
+Lorem Ipsum is the single greatest threat. We are not - we are not keeping up with other websites.
+
+The quote above is from [Trump Ipsum](https://trumpipsum.net)
+"""
+        (absolute
+            [ "assets", "applePie.jpg" ]
+            []
+            |> Url.fromString
+        )
