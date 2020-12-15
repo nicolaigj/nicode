@@ -204,6 +204,7 @@ view model =
             [ header
             , div [ css [ pageLayout ] ]
                 [ div [ css [ contentArea, contentBottomStyle ] ] (pageLoader model.page) ]
+            , text "Created by Nicolai Gjellestad in Elm"
             , globalStyle
             ]
     }
@@ -496,6 +497,7 @@ globalStyle =
             , Css.padding (px 0)
             , Css.backgroundColor colors.darkPurple
             , fontFamily
+            , Css.color colors.white
             ]
         ]
 
@@ -538,7 +540,6 @@ heroTextStyle =
         , Css.fontFamilies [ "Roboto Mono" ]
         , Css.fontStyle Css.normal
         , Css.fontWeight Css.normal
-        , Css.color colors.white
         , textSizeLarge
         ]
 
@@ -547,7 +548,6 @@ contentArea : Style
 contentArea =
     Css.batch
         [ property "grid-area" "content"
-        , Css.color colors.white
         ]
 
 
