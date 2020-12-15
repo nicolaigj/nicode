@@ -1,0 +1,6 @@
+{
+    "name": "nicode",
+    "scripts": {
+        "build": "mkdir -p dist && elm make src/Main.elm --optimize --output=dist/main.js && cp index.html dist"
+    }
+}
