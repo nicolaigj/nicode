@@ -2,31 +2,49 @@ module Main exposing (main)
 
 import Browser exposing (Document)
 import Browser.Navigation as Nav
-import Css.Global exposing (Snippet, global)
-import Html
-import Html.Attributes exposing (class)
 import Css
     exposing
         ( Color
+        , None
         , Style
         , active
+        , auto
+        , batch
+        , block
         , border3
+        , borderBottom2
         , borderBottom3
+        , borderBottomStyle
+        , borderColor
         , borderRadius
+        , display
+        , em
         , fontSize
         , fontStyle
+        , inline
+        , inlineBlock
+        , lineHeight
+        , marginBottom
         , marginLeft
         , marginRight
         , marginTop
+        , noWrap
+        , normal
         , padding
+        , paddingLeft
+        , paddingRight
         , pct
         , property
         , px
         , rem
         , solid
+        , whiteSpace
         , width
         )
-import Html.Styled exposing (Html, a, br, div, h1, img, nav, section, span, text)
+import Css.Global exposing (Snippet, global)
+import Html
+import Html.Attributes exposing (class)
+import Html.Styled exposing (Html, a, address, br, div, h1, h2, img, nav, p, section, span, text)
 import Html.Styled.Attributes exposing (css, href, src)
 import Markdown
 import Url
@@ -82,24 +100,31 @@ cvEntries : List CvEntry
 cvEntries =
     [ CvEntry "Nurofy"
         "Team lead"
-        """Some people have an ability to write placeholder text... It's an art you're 
-            basically born with. 
-            You either have it or you don't. All of the words in Lorem Ipsum have flirted with me - consciously or 
-            unconsciously. That's to be expected."""
+        """Nurofy creates a digital marketing platform that enables users to run and manage advertisement campaigns
+        across different social media networks and programmatic advertisement from a single interface. As a team lead
+        for developers and designers we built API's and user interfaces, and a high performance real time bidder in
+        Go."""
         "2019-02"
         "2020-12"
-        [ ".NET Core", "SQL", "Svelte", "Sapper" ]
-    , CvEntry "Nurofy"
-        "Team lead"
-        """Some people have an ability to write placeholder text... It's an art you're 
-            basically born with. 
-            You either have it or you don't. All of the words in Lorem Ipsum have flirted with me - consciously or 
-            unconsciously. That's to be expected."""
-        "2019-02"
-        "2020-12"
-        [ ".NET Core", "SQL", "Svelte", "Sapper" ]
+        [ ".NET Core", "Go", "Azure", "SQL", "Svelte", "Sapper" ]
+    , CvEntry "Avo Consulting"
+        "Senior Consultant"
+        """Avo Consulting helps businesses creating better ways to work and utilize their workforce by leveraging robot
+        process automation (RPA) and AI. With RPA we can reduce costs, improve customer satisfaction and improve
+        quality in critical business processes."""
+        "2017-02"
+        "2019-01"
+        [ ".NET Core", "SQL", "Azure", "Blue Prism", "Python" ]
+    , CvEntry "Candidator"
+        "Consultant"
+        """Candidator (formerly Knowit Services) is a managed services provider that manages everything from webhosting
+        to complete IT infrastructures. With state of the art computer centres in Sweden and Norway we served thousands
+        of users every day. I was technical manager for several accounting companies, managing everything from their
+        computer networks to software maintenance and support."""
+        "2013-10"
+        "2017-01"
+        [ "PowerShell", "Azure", "Windows Server", "Cisco", "Office365" ]
     ]
-
 
 
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
@@ -177,9 +202,8 @@ view model =
     , body =
         List.map Html.Styled.toUnstyled
             [ header
-            , br [] []
             , div [ css [ pageLayout ] ]
-                [ div [ css [ contentArea ] ] (pageLoader model.page) ]
+                [ div [ css [ contentArea, contentBottomStyle ] ] (pageLoader model.page) ]
             , globalStyle
             ]
     }
@@ -193,10 +217,13 @@ pageLoader page =
 
         Home ->
             [ section [ css [ heroLayout ] ] [ heroLeft, heroRight ]
+            , availabilitySection
+            , skillsSection
+            , cvSection
             ]
 
         CV ->
-            h1 [] [ text "Experience" ] :: cvSection
+            [ cvSection ]
 
         Blog ->
             [ bodyToMarkdown applePie.body, blogStyles ]
@@ -222,9 +249,6 @@ header =
                     , text "Nicode"
                     , span [ css [ bracketStyle ] ] [ text "}" ]
                     ]
-                , a [ href "/#/blog", css [ navItemStyle ] ] [ text "Blog" ]
-                , a [ href "/#/cv", css [ navItemStyle ] ] [ text "CV" ]
-                , a [ href "/#/contact", css [ navItemStyle ] ] [ text "Contact" ]
                 ]
             ]
         ]
@@ -235,13 +259,37 @@ heroLeft =
     div [] [ img [ src "/assets/nicolai.jpg", css [ heroImageStyle ] ] [] ]
 
 
-heroRight : Html msg
+heroRight : Html Msg
 heroRight =
     div [ css [ heroTextStyle ] ]
-        [ h1 []
+        [ p []
             [ text
-                """Hi! I’m Nicolai, a developer with a passion for people and technology."""
+                """Hi! I’m Nicolai, a freelance developer with a passion for people and technology.
+                """
+            , contact
             ]
+        ]
+
+
+contact : Html Msg
+contact =
+    address [ css [ contactStyle ] ]
+        [ text "Say hi to me by "
+        , a [ href "mailto:nicolai@gjellestad.net", css [ linkStyle ] ] [ text "mail" ]
+        , text ", "
+        , a [ href "tel:+4799428603", css [ linkStyle ] ]
+            [ text "telephone ", span [ css [ whiteSpace noWrap ] ] [ text "994 28 603" ] ]
+        , text ", or "
+        , a [ href "https://www.linkedin.com/in/ngjellestad/", css [ linkStyle ] ] [ text "LinkedIn" ]
+        , text "."
+        ]
+
+
+contactStyle : Style
+contactStyle =
+    Css.batch
+        [ display inline
+        , fontStyle normal
         ]
 
 
@@ -249,36 +297,116 @@ cvEntrySection : CvEntry -> Html Msg
 cvEntrySection entry =
     section [ css [ cvEntryStyle ] ]
         [ text (entry.fromDate ++ "-" ++ entry.toDate)
-        , br [] []
-        , h1 [] [ text (entry.position ++ " at " ++ entry.company)]
-        , text entry.description
-        , br [] []
-        , text """[ .NET Core, SQL, Svelte, Sapper ]"""
+        , h2 [] [ text (entry.position ++ " at " ++ entry.company) ]
+        , p [] [ text entry.description ]
+        , p [] [ text (technologiesToString entry.technologies) ]
         ]
 
 
-technologies : List String -> String -> String
-technologies t s =
-    case t of 
-        [] ->
-            s
-        first::[] ->
-            s ++ ", " ++ first ++ "]"
-        first::rest ->
-            technologies rest (s ++ ", " ++ first)
+technologiesToString : List String -> String
+technologiesToString l =
+    technologiesToString2 l "["
 
-cvSection : List (Html Msg)
-cvSection = 
-    List.map cvEntrySection cvEntries
+
+technologiesToString2 : List String -> String -> String
+technologiesToString2 t s =
+    case t of
+        [] ->
+            s ++ "]"
+
+        first :: [] ->
+            s ++ first ++ "]"
+
+        first :: rest ->
+            technologiesToString2 rest (s ++ first ++ ", ")
+
+
+cvSection : Html Msg
+cvSection =
+    section [ css [ contentSectionStyle, paddingNormalStyle ] ]
+        ([ h1 [ css [ contentSectionHeadingStyle ] ] [ text "Experience and projects" ] ]
+            ++ List.map
+                cvEntrySection
+                cvEntries
+        )
+
+
+availabilitySection : Html Msg
+availabilitySection =
+    section [ css [ contentSectionStyle, paddingNormalStyle ] ]
+        [ h1 [ css [ contentSectionHeadingStyle ] ]
+            [ text "Availability" ]
+        , p [ css [ display block ] ] [ text "TBD" ]
+        ]
+
+
+skillsSection : Html Msg
+skillsSection =
+    section [ css [ contentSectionStyle, paddingNormalStyle ] ]
+        [ h1 [ css [ contentSectionHeadingStyle ] ] [ text "Skills" ]
+        , p [ css [ display block ] ] [ text """I'm mainly a backend developer focusing on C# and Golang, but I delve into functional front end
+        programming with Elm on my spare time. Lately I've built API's and serverless functions in C# and a high
+        performance real-time bidder in Go. I have experience as a project manager and tech lead, I care about
+        making people and teams do great stuff while having a good time.""" ]
+        ]
+
+
+contentSectionStyle : Style
+contentSectionStyle =
+    batch
+        [ marginTop (px 100)
+        , lineHeight (rem 2)
+        ]
+
+
+contentSectionHeadingStyle : Style
+contentSectionHeadingStyle =
+    batch [ borderBottomStyle, borderPinkStyle, display inlineBlock ]
+
+
+contentBottomStyle : Style
+contentBottomStyle =
+    batch
+        [ marginBottom (px 200) ]
+
+
+paddingNormalStyle : Style
+paddingNormalStyle =
+    batch
+        [ paddingLeft (px 5)
+        , paddingRight (px 5)
+        ]
+
+
+textSizeLarge : Style
+textSizeLarge =
+    fontSize (rem 1.5)
+
+
+textSizeXLarge : Style
+textSizeXLarge =
+    fontSize (rem 2)
+
+
+borderBottomStyle : Style
+borderBottomStyle =
+    batch
+        [ borderBottom2 (px 1) solid ]
+
+
+borderPinkStyle : Style
+borderPinkStyle =
+    borderColor colors.pink
+
 
 cvEntryStyle : Style
 cvEntryStyle =
     Css.batch
-        [ marginTop (px 100)
-        , border3 (px 1) solid colors.green
+        [ border3 (px 1) solid colors.pink
+        , borderRadius (px 10)
+        , marginTop (px 40)
         , padding (px 15)
-        , fontFamily
-        , textBase
+        , lineHeight (rem 1.5)
         ]
 
 
@@ -306,7 +434,6 @@ blogStyles =
     global
         [ Css.Global.class "blogpost"
             [ Css.fontFamilies [ "Roboto Mono" ]
-            , Css.fontSize (rem 1)
             , Css.Global.children
                 [ Css.Global.p
                     [ Css.Global.children
@@ -333,23 +460,23 @@ colors =
 navItemStyle : Style
 navItemStyle =
     Css.batch
+        [ Css.marginRight (px 10)
+        , Css.marginLeft (px 3)
+        , linkStyle
+        ]
+
+
+linkStyle : Style
+linkStyle =
+    Css.batch
         [ Css.textDecoration Css.none
         , Css.color colors.green
-        , Css.marginRight (px 10)
-        , Css.fontSize (rem 1.2)
-        , Css.marginLeft (px 3)
-        , active [ borderBottom3 (px 1) solid colors.green ]
         ]
 
 
 fontFamily : Style
 fontFamily =
     Css.fontFamilies [ "Roboto Mono" ]
-
-
-textBase : Style
-textBase =
-    Css.fontSize (rem 1)
 
 
 bracketStyle : Style
@@ -378,6 +505,7 @@ heroLayout =
     Css.batch
         [ property "display" "grid"
         , property "grid-template-columns" "repeat(auto-fill, minmax(200px, 500px))"
+        , marginTop (px 20)
         ]
 
 
@@ -405,13 +533,13 @@ heroTextStyle =
     Css.batch
         [ Css.marginTop Css.auto
         , Css.marginBottom Css.auto
-        , fontSize (rem 0.8)
         , Css.marginLeft (px 20)
         , Css.marginRight (px 20)
         , Css.fontFamilies [ "Roboto Mono" ]
         , Css.fontStyle Css.normal
         , Css.fontWeight Css.normal
         , Css.color colors.white
+        , textSizeLarge
         ]
 
 
@@ -419,7 +547,6 @@ contentArea : Style
 contentArea =
     Css.batch
         [ property "grid-area" "content"
-        , fontSize (rem 1.375)
         , Css.color colors.white
         ]
 
@@ -445,8 +572,8 @@ applePie =
 - Eggs
 - Apples
 
-> My placeholder text, I think, is going to end up being very good with women. 
-Look at that text! Would anyone use that? Can you imagine that, the text of your next webpage?! 
+> My placeholder text, I think, is going to end up being very good with women.
+Look at that text! Would anyone use that? Can you imagine that, the text of your next webpage?!
 Lorem Ipsum is the single greatest threat. We are not - we are not keeping up with other websites.
 
 The quote above is from [Trump Ipsum](https://trumpipsum.net)
