@@ -50,6 +50,7 @@ import Markdown
 import Url
 import Url.Builder exposing (absolute)
 import Url.Parser exposing ((</>), Parser, int, map, oneOf, s)
+import Html.Styled.Attributes exposing (alt)
 
 
 
@@ -106,7 +107,7 @@ cvEntries =
         Go."""
         "2019-02"
         "2020-12"
-        [ ".NET Core", "Go", "Azure", "SQL", "Svelte", "Sapper" ]
+        [ ".NET Core", "Go", "Azure", "SQL", "Svelte", "CI/CD" ]
     , CvEntry "Avo Consulting"
         "Senior Consultant"
         """Avo Consulting helps businesses creating better ways to work and utilize their workforce by leveraging robot
@@ -204,7 +205,7 @@ view model =
             [ header
             , div [ css [ pageLayout ] ]
                 [ div [ css [ contentArea, contentBottomStyle ] ] (pageLoader model.page) ]
-            , text "Created by Nicolai Gjellestad in Elm"
+            , p [ css [ marginNormalStyle, marginBottom (px 20) ] ] [ text "Created by Nicolai Gjellestad in Elm" ]
             , globalStyle
             ]
     }
@@ -257,7 +258,7 @@ header =
 
 heroLeft : Html msg
 heroLeft =
-    div [] [ img [ src "/assets/nicolai.jpg", css [ heroImageStyle ] ] [] ]
+    div [] [ img [ src "/assets/nicolai.jpg", css [ heroImageStyle ], alt "Nicolai Gjellestad" ] [] ]
 
 
 heroRight : Html Msg
@@ -306,7 +307,7 @@ cvEntrySection entry =
 
 technologiesToString : List String -> String
 technologiesToString l =
-    technologiesToString2 l "["
+    technologiesToString2 l "[ "
 
 
 technologiesToString2 : List String -> String -> String
@@ -316,7 +317,7 @@ technologiesToString2 t s =
             s ++ "]"
 
         first :: [] ->
-            s ++ first ++ "]"
+            s ++ first ++ " ]"
 
         first :: rest ->
             technologiesToString2 rest (s ++ first ++ ", ")
@@ -324,7 +325,7 @@ technologiesToString2 t s =
 
 cvSection : Html Msg
 cvSection =
-    section [ css [ contentSectionStyle, paddingNormalStyle ] ]
+    section [ css [ contentSectionStyle, marginNormalStyle ] ]
         ([ h1 [ css [ contentSectionHeadingStyle ] ] [ text "Experience and projects" ] ]
             ++ List.map
                 cvEntrySection
@@ -334,16 +335,18 @@ cvSection =
 
 availabilitySection : Html Msg
 availabilitySection =
-    section [ css [ contentSectionStyle, paddingNormalStyle ] ]
+    section [ css [ contentSectionStyle, marginNormalStyle ] ]
         [ h1 [ css [ contentSectionHeadingStyle ] ]
             [ text "Availability" ]
-        , p [ css [ display block ] ] [ text "TBD" ]
+        , p [ css [ display block ] ]
+            [ text """I'm available for full time projects from August 2021,
+            but I may be open for smaller projects before this. Contact me!""" ]
         ]
 
 
 skillsSection : Html Msg
 skillsSection =
-    section [ css [ contentSectionStyle, paddingNormalStyle ] ]
+    section [ css [ contentSectionStyle, marginNormalStyle ] ]
         [ h1 [ css [ contentSectionHeadingStyle ] ] [ text "Skills" ]
         , p [ css [ display block ] ] [ text """I'm mainly a backend developer focusing on C# and Golang, but I delve into functional front end
         programming with Elm on my spare time. Lately I've built API's and serverless functions in C# and a high
@@ -371,11 +374,11 @@ contentBottomStyle =
         [ marginBottom (px 200) ]
 
 
-paddingNormalStyle : Style
-paddingNormalStyle =
+marginNormalStyle : Style
+marginNormalStyle =
     batch
-        [ paddingLeft (px 5)
-        , paddingRight (px 5)
+        [ marginLeft (px 20)
+        , marginRight (px 20)
         ]
 
 
