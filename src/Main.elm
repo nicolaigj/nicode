@@ -5,20 +5,15 @@ import Browser.Navigation as Nav
 import Css
     exposing
         ( Color
-        , None
         , Style
-        , active
-        , auto
         , batch
         , block
         , border3
         , borderBottom2
-        , borderBottom3
         , borderBottomStyle
         , borderColor
         , borderRadius
         , display
-        , em
         , fontSize
         , fontStyle
         , inline
@@ -31,8 +26,6 @@ import Css
         , noWrap
         , normal
         , padding
-        , paddingLeft
-        , paddingRight
         , pct
         , property
         , px
@@ -41,10 +34,10 @@ import Css
         , whiteSpace
         , width
         )
-import Css.Global exposing (Snippet, global)
+import Css.Global exposing (global)
 import Html
 import Html.Attributes exposing (class)
-import Html.Styled exposing (Html, a, address, br, div, h1, h2, img, nav, p, section, span, text)
+import Html.Styled exposing (Html, a, address, div, h1, h2, img, nav, p, section, span, text)
 import Html.Styled.Attributes exposing (css, href, src)
 import Markdown
 import Url
@@ -230,7 +223,7 @@ pageLoader page =
         Blog ->
             [ bodyToMarkdown applePie.body, blogStyles ]
 
-        BlogPost i ->
+        BlogPost _ ->
             [ bodyToMarkdown applePie.body, blogStyles ]
 
         NotFound ->
@@ -326,11 +319,11 @@ technologiesToString2 t s =
 cvSection : Html Msg
 cvSection =
     section [ css [ contentSectionStyle, marginNormalStyle ] ]
-        ([ h1 [ css [ contentSectionHeadingStyle ] ] [ text "Experience and projects" ] ]
-            ++ List.map
+         ((h1 [ css [ contentSectionHeadingStyle ] ] [ text "Experience and projects" ]) 
+            :: List.map
                 cvEntrySection
-                cvEntries
-        )
+                cvEntries)
+        
 
 
 availabilitySection : Html Msg
@@ -339,7 +332,7 @@ availabilitySection =
         [ h1 [ css [ contentSectionHeadingStyle ] ]
             [ text "Availability" ]
         , p [ css [ display block ] ]
-            [ text """I'm available for full time projects from August 2021,
+            [ text """I'm available for full time projects from August 2022,
             but I may be open for smaller projects before this. Contact me!""" ]
         ]
 
@@ -385,11 +378,6 @@ marginNormalStyle =
 textSizeLarge : Style
 textSizeLarge =
     fontSize (rem 1.5)
-
-
-textSizeXLarge : Style
-textSizeXLarge =
-    fontSize (rem 2)
 
 
 borderBottomStyle : Style
