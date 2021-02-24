@@ -274,7 +274,7 @@ contact =
         , text ", "
         , a [ href "tel:+4799428603", css [ linkStyle ] ]
             [ text "telephone ", span [ css [ whiteSpace noWrap ] ] [ text "994 28 603" ] ]
-        , text ", or "
+        , text " or "
         , a [ href "https://www.linkedin.com/in/ngjellestad/", css [ linkStyle ] ] [ text "LinkedIn" ]
         , text "."
         ]
