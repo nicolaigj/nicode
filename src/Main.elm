@@ -341,7 +341,7 @@ skillsSection : Html Msg
 skillsSection =
     section [ css [ contentSectionStyle, marginNormalStyle ] ]
         [ h1 [ css [ contentSectionHeadingStyle ] ] [ text "Skills" ]
-        , p [ css [ display block ] ] [ text """I'm mainly a backend developer focusing on C# and Golang, but I delve into functional front end
+        , p [ css [ display block ] ] [ text """I'm mainly a backend developer focusing on C# and Go, but I delve into functional front end
         programming with Elm on my spare time. Lately I've built API's and serverless functions in C# and a high
         performance real-time bidder in Go. I have experience as a project manager and tech lead, I care about
         making people and teams do great stuff while having a good time.""" ]
