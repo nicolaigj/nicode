@@ -35,15 +35,13 @@ import Css
         , width
         )
 import Css.Global exposing (global)
-import Html
 import Html.Attributes exposing (class)
 import Html.Styled exposing (Html, a, address, div, h1, h2, img, nav, p, section, span, text)
-import Html.Styled.Attributes exposing (css, href, src)
+import Html.Styled.Attributes exposing (alt, css, href, src)
 import Markdown
 import Url
 import Url.Builder exposing (absolute)
 import Url.Parser exposing ((</>), Parser, int, map, oneOf, s)
-import Html.Styled.Attributes exposing (alt)
 
 
 
@@ -80,6 +78,16 @@ type alias BlogPostInfo =
     }
 
 
+type alias Employee =
+    { employeeImage : EmployeeImage
+    , intro : String
+    , availability : String
+    , skills : String
+    , cv : List CvEntry
+    , contactInfo : ContactInfo
+    }
+
+
 type alias CvEntry =
     { company : String
     , position : String
@@ -90,8 +98,46 @@ type alias CvEntry =
     }
 
 
-cvEntries : List CvEntry
-cvEntries =
+type alias EmployeeImage =
+    { imgSrc : String
+    , altText : String
+    }
+
+
+type alias ContactInfo =
+    { mail : ContactDetail
+    , telephone : ContactDetail
+    , linkedIn : Maybe ContactDetail
+    }
+
+
+type alias ContactDetail =
+    { link : String
+    , text : String
+    }
+
+
+contactInfoNicolai : ContactInfo
+contactInfoNicolai =
+    ContactInfo
+        (ContactDetail
+            "mailto:nicolai@gjellestad.net"
+            "mail"
+        )
+        (ContactDetail
+            "tel:+4799428603"
+            "994 28 603"
+        )
+        (Just
+            (ContactDetail
+                "https://www.linkedin.com/in/ngjellestad/"
+                "LinkedIn"
+            )
+        )
+
+
+cvEntriesNicolai : List CvEntry
+cvEntriesNicolai =
     [ CvEntry "Nurofy"
         "Team lead"
         """Nurofy creates a digital marketing platform that enables users to run and manage advertisement campaigns
@@ -121,6 +167,49 @@ cvEntries =
     ]
 
 
+nicolai : Employee
+nicolai =
+    Employee
+        (EmployeeImage "/assets/nicolai.jpg" "Nicolai Gjellestad")
+        "Hi! I’m Nicolai, a freelance developer with a passion for people and technology."
+        """I'm available for full time projects from August 2022, but I may be open for smaller projects before 
+    this. Contact me!"""
+        """I'm mainly a backend developer focusing on C# and Go, but I delve into functional front end programming with 
+    Elm on my spare time. Lately I've built API's and serverless functions in C# and a high performance real-time bidder
+     in Go. I have experience as a project manager and tech lead, I care about making people and teams do great stuff 
+     while having a good time."""
+        cvEntriesNicolai
+        contactInfoNicolai
+
+
+contactInfoHans : ContactInfo
+contactInfoHans =
+    ContactInfo
+        (ContactDetail "mailto:box@melaa.net" "mail")
+        (ContactDetail "tel:+4748149606" "481 49 606")
+        Nothing
+
+
+cvEntriesHans : List CvEntry
+cvEntriesHans =
+    []
+
+
+hans : Employee
+hans =
+    Employee
+        (EmployeeImage "/assets/hans.jpg" "Hans Melaa")
+        "Hi! I’m Hans, a developer with a passion for making great user experiences."
+        """I'm available for full time projects from January 2022. Contact me!"""
+        """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+         magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
+         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
+         pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+          laborum."""
+        cvEntriesHans
+        contactInfoHans
+
+
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url key =
     ( Model key url (fromUrl url), Cmd.none )
@@ -138,6 +227,8 @@ type Route
     | Contact
     | CV
     | NotFound
+    | Hans
+    | Nicolai
 
 
 routeParser : Parser (Route -> a) a
@@ -148,6 +239,8 @@ routeParser =
         , map BlogPost (s "blog" </> int)
         , map Contact (s "contact")
         , map CV (s "cv")
+        , map Hans (s "hans")
+        , map Nicolai (s "nicolai")
         ]
 
 
@@ -211,14 +304,10 @@ pageLoader page =
             [ text "Contact" ]
 
         Home ->
-            [ section [ css [ heroLayout ] ] [ heroLeft, heroRight ]
-            , availabilitySection
-            , skillsSection
-            , cvSection
-            ]
+            employeePage nicolai
 
         CV ->
-            [ cvSection ]
+            [ cvSection cvEntriesNicolai ]
 
         Blog ->
             [ bodyToMarkdown applePie.body, blogStyles ]
@@ -229,9 +318,24 @@ pageLoader page =
         NotFound ->
             [ text "404" ]
 
+        Hans ->
+            employeePage hans
+
+        Nicolai ->
+            employeePage nicolai
+
 
 
 -- COMPONENTS
+
+
+employeePage : Employee -> List (Html Msg)
+employeePage employee =
+    [ section [ css [ heroLayout ] ] [ heroLeft employee.employeeImage, heroRight employee.intro employee.contactInfo ]
+    , availabilitySection employee.availability
+    , skillsSection employee.skills
+    , cvSection employee.cv
+    ]
 
 
 header : Html msg
@@ -249,35 +353,45 @@ header =
         ]
 
 
-heroLeft : Html msg
-heroLeft =
-    div [] [ img [ src "/assets/nicolai.jpg", css [ heroImageStyle ], alt "Nicolai Gjellestad" ] [] ]
+heroLeft : EmployeeImage -> Html msg
+heroLeft employeeImage =
+    div [] [ img [ src employeeImage.imgSrc, css [ heroImageStyle ], alt employeeImage.altText ] [] ]
 
 
-heroRight : Html Msg
-heroRight =
+heroRight : String -> ContactInfo -> Html Msg
+heroRight intro contactInfo =
     div [ css [ heroTextStyle ] ]
         [ p []
-            [ text
-                """Hi! I’m Nicolai, a freelance developer with a passion for people and technology.
-                """
-            , contact
+            [ text (intro ++ " ")
+            , contact contactInfo
             ]
         ]
 
 
-contact : Html Msg
-contact =
-    address [ css [ contactStyle ] ]
-        [ text "Say hi to me by "
-        , a [ href "mailto:nicolai@gjellestad.net", css [ linkStyle ] ] [ text "mail" ]
-        , text ", "
-        , a [ href "tel:+4799428603", css [ linkStyle ] ]
-            [ text "telephone ", span [ css [ whiteSpace noWrap ] ] [ text "994 28 603" ] ]
-        , text " or "
-        , a [ href "https://www.linkedin.com/in/ngjellestad/", css [ linkStyle ] ] [ text "LinkedIn" ]
-        , text "."
-        ]
+contact : ContactInfo -> Html Msg
+contact contactInfo =
+    case contactInfo.linkedIn of
+        Just linkedIn ->
+            address [ css [ contactStyle ] ]
+                [ text "Say hi to me by "
+                , a [ href contactInfo.mail.link, css [ linkStyle ] ] [ text contactInfo.mail.text ]
+                , text ", "
+                , a [ href contactInfo.telephone.link, css [ linkStyle ] ]
+                    [ text "telephone ", span [ css [ whiteSpace noWrap ] ] [ text contactInfo.telephone.text ] ]
+                , text " or "
+                , a [ href linkedIn.link, css [ linkStyle ] ] [ text linkedIn.text ]
+                , text "."
+                ]
+
+        Nothing ->
+            address [ css [ contactStyle ] ]
+                [ text "Say hi to me by "
+                , a [ href contactInfo.mail.link, css [ linkStyle ] ] [ text contactInfo.mail.text ]
+                , text " or "
+                , a [ href contactInfo.telephone.link, css [ linkStyle ] ]
+                    [ text "telephone ", span [ css [ whiteSpace noWrap ] ] [ text contactInfo.telephone.text ] ]
+                , text "."
+                ]
 
 
 contactStyle : Style
@@ -316,35 +430,31 @@ technologiesToString2 t s =
             technologiesToString2 rest (s ++ first ++ ", ")
 
 
-cvSection : Html Msg
-cvSection =
+cvSection : List CvEntry -> Html Msg
+cvSection cvEntries =
     section [ css [ contentSectionStyle, marginNormalStyle ] ]
-         ((h1 [ css [ contentSectionHeadingStyle ] ] [ text "Experience and projects" ]) 
+        (h1 [ css [ contentSectionHeadingStyle ] ] [ text "Experience and projects" ]
             :: List.map
                 cvEntrySection
-                cvEntries)
-        
+                cvEntries
+        )
 
 
-availabilitySection : Html Msg
-availabilitySection =
+availabilitySection : String -> Html Msg
+availabilitySection availability =
     section [ css [ contentSectionStyle, marginNormalStyle ] ]
         [ h1 [ css [ contentSectionHeadingStyle ] ]
             [ text "Availability" ]
         , p [ css [ display block ] ]
-            [ text """I'm available for full time projects from August 2022,
-            but I may be open for smaller projects before this. Contact me!""" ]
+            [ text availability ]
         ]
 
 
-skillsSection : Html Msg
-skillsSection =
+skillsSection : String -> Html Msg
+skillsSection skills =
     section [ css [ contentSectionStyle, marginNormalStyle ] ]
         [ h1 [ css [ contentSectionHeadingStyle ] ] [ text "Skills" ]
-        , p [ css [ display block ] ] [ text """I'm mainly a backend developer focusing on C# and Go, but I delve into functional front end
-        programming with Elm on my spare time. Lately I've built API's and serverless functions in C# and a high
-        performance real-time bidder in Go. I have experience as a project manager and tech lead, I care about
-        making people and teams do great stuff while having a good time.""" ]
+        , p [ css [ display block ] ] [ text skills ]
         ]
 
 
