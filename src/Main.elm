@@ -192,7 +192,33 @@ contactInfoHans =
 
 cvEntriesHans : List CvEntry
 cvEntriesHans =
-    []
+    [ CvEntry "Nurofy"
+        "Developer and tech lead"
+        """A startup developing a digital marketing platform for multichannel programmatic
+        advertising. My role was development and design of the frontend application. I entered quite
+        early, and my responsibilities grew naturally with the needs of the team; where I took part in
+        planning and design of the architecture, models, and workflows."""
+        "2019-06"
+        "2021-12"
+        [ "JavaScript", "Svelte", "Sapper", "Express", "Node", "Affinity Designer", "Figma", "Docker" ]
+    , CvEntry "University of Bergen"
+        "Developer and research assistant"
+        """Development of a quiz-like application for data collection and comprehension analysis and
+        student course progression. I was tasked with development and design of the frontend,
+        communicating with a python-based rest API."""
+        "2019-08"
+        "2019-11"
+        [ "JavaScript", "Sapper", "Python", "Affinity Designer" ]
+    , CvEntry "Thriving Ventures AB"
+        "Consultant"
+        """A company developing a SaaS solution for administration and monetization of game
+        servers. The project consisted of creating a landing page, logo and profile. I had a great time
+        communicating with the client and figuring out exactly what was needed to deliver a
+        satisfying product."""
+        "2019-04"
+        "2019-06"
+        [ "JavaScript", "Svelte", "Adobe Illustrator" ]
+    ]
 
 
 hans : Employee
