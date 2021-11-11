@@ -478,7 +478,7 @@ availabilitySection availability =
 aboutSection : String -> Html Msg
 aboutSection about =
     section [ css [ contentSectionStyle, marginNormalStyle ] ]
-        [ h1 [ css [ contentSectionHeadingStyle ] ] [ text "About" ]
+        [ h1 [ css [ contentSectionHeadingStyle ] ] [ text "About me" ]
         , p [ css [ display block ] ] [ text about ]
         ]
 
