@@ -82,7 +82,7 @@ type alias Employee =
     { employeeImage : EmployeeImage
     , intro : String
     , availability : String
-    , skills : String
+    , about : String
     , cv : List CvEntry
     , contactInfo : ContactInfo
     }
@@ -227,11 +227,10 @@ hans =
         (EmployeeImage "/assets/hans.jpg" "Hans Melaa")
         "Hi! I’m Hans, a developer with a passion for making great user experiences."
         """I'm available for full time projects from January 2022. Contact me!"""
-        """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-         magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-         pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-          laborum."""
+        """As a developer focusing on frontend and user experience, it is important for me that communication is clear, 
+        not only to the end user but also in such a way that I am enabling all stakeholders to do great. I have a knack 
+        for data wrangling and love cooking up a script in Python and have it look great in a JavaScript based frontend.
+         Lately I have been working on a programmatic advertisement platform written in Svelte."""
         cvEntriesHans
         contactInfoHans
 
@@ -359,7 +358,7 @@ employeePage : Employee -> List (Html Msg)
 employeePage employee =
     [ section [ css [ heroLayout ] ] [ heroLeft employee.employeeImage, heroRight employee.intro employee.contactInfo ]
     , availabilitySection employee.availability
-    , skillsSection employee.skills
+    , aboutSection employee.about
     , cvSection employee.cv
     ]
 
@@ -476,11 +475,11 @@ availabilitySection availability =
         ]
 
 
-skillsSection : String -> Html Msg
-skillsSection skills =
+aboutSection : String -> Html Msg
+aboutSection about =
     section [ css [ contentSectionStyle, marginNormalStyle ] ]
-        [ h1 [ css [ contentSectionHeadingStyle ] ] [ text "Skills" ]
-        , p [ css [ display block ] ] [ text skills ]
+        [ h1 [ css [ contentSectionHeadingStyle ] ] [ text "About" ]
+        , p [ css [ display block ] ] [ text about ]
         ]
 
 
