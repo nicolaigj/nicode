@@ -227,7 +227,7 @@ hans =
         (EmployeeImage "/assets/hans.jpg" "Hans Melaa")
         "Hi! I’m Hans, a developer with a passion for making great user experiences."
         """I'm available for full time projects from January 2022. Contact me!"""
-        """As a developer focusing on frontend and user experience, it is important for me that communication is clear, 
+        """As a developer I focus on frontend and user experience. It is important for me that communication is clear, 
         not only to the end user but also in such a way that I am enabling all stakeholders to do great. I have a knack 
         for data wrangling and love cooking up a script in Python and have it look great in a JavaScript based frontend.
          Lately I have been working on a programmatic advertisement platform written in Svelte."""
