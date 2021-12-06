@@ -1,15 +1,13 @@
 <script lang="ts">
-	import '@fontsource/overpass-mono/400.css';
-	import '@fontsource/overpass-mono/700.css';
-	import '@fontsource/jost';
+	import '@fontsource/archivo';
 	import '../default.css';
 	import '../config.css';
-	import Nicode from '$lib/Nicode.svelte';
-	import BackgroundImage from '$lib/backdrops/BackgroundImage.svelte';
+
+	import Navigation from '$lib/nav/Navigation.svelte';
 </script>
 
 <header>
-	<Nicode />
+	<Navigation />
 </header>
 
 <main>
@@ -20,31 +18,36 @@
 	<!-- <p>Created by Hans in Svelte, <time datetime="2021-02">Dec 2021</time></p> -->
 </footer>
 
-<BackgroundImage />
-
 <style>
+	:global(body) {
+		font-family: Archivo, sans-serif;
+	}
 	header,
 	main,
 	footer {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-	}
 
-	header {
-		margin: 3em 0 0;
+		max-width: var(--max-width);
+		margin: 0 auto;
+		width: 100%;
+	}
+	header,
+	footer {
+		z-index: 11;
 	}
 	main {
 		flex: auto;
 		position: relative;
 		z-index: 10;
-		margin: 3em 0;
+		margin: 3em auto;
 	}
 	footer {
-		margin-top: 5em;
-		padding: 0.5em 2em;
+		margin-top: 2em;
+		padding: 1em;
 
-		color: var(--color-accent);
+		color: var(--color-content);
 	}
 
 	/* footer > p {

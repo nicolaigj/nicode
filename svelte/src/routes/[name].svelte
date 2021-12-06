@@ -12,8 +12,7 @@
 </script>
 
 <script lang="ts">
-	import ContentArticle from '$lib/wrappers/ContentArticle.svelte';
-	import ConsultantSection from '$lib/consultant/ConsultantSection.svelte';
+	import ConsultantArticle from '$lib/consultant/ConsultantArticle.svelte';
 	export let consultant;
 </script>
 
@@ -21,6 +20,4 @@
 	<title>nicode - {consultant.name}</title>
 </svelte:head>
 
-<ContentArticle>
-	<ConsultantSection {consultant} />
-</ContentArticle>
+<ConsultantArticle {consultant} />

@@ -3,6 +3,7 @@
 	import ContentArticle from '$lib/wrappers/ContentArticle.svelte';
 	import { prefetchRoutes } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import Section from '$lib/wrappers/Section.svelte';
 
 	onMount(() => {
 		prefetchRoutes(consultants.map((c) => c.name));
@@ -13,30 +14,30 @@
 	<title>nicode</title>
 </svelte:head>
 
-<ContentArticle>
-	<section>
-		{#each consultants as consultant}
-			<a sveltekit:prefetch href={consultant.name}>
-				<span>{consultant.name}</span>
-			</a>
-		{/each}
-	</section>
+<ContentArticle title="Nicode">
+	<Section title="Welcome to nicode!">
+		<p>We are a tiny consultancy firm focused on people as much as code.</p>
+	</Section>
+	<Section title="Developers">
+		<div>
+			{#each consultants as consultant}
+				<a sveltekit:prefetch href={consultant.name}>
+					<span>{consultant.name}</span>
+				</a>
+			{/each}
+		</div>
+	</Section>
 </ContentArticle>
 
 <style>
 	a {
-		border-radius: var(--b-radius);
-		background-color: var(--color-background);
+		border-radius: 6px;
 		text-decoration: none;
-		padding: 20px;
-
-		border: var(--b-thickness) solid var(--color-interact);
+		padding: 0.5em 1em;
+		border: 2px solid var(--color-interactive);
 	}
-
-	section {
+	div {
 		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
 		gap: 1em;
 	}
 </style>

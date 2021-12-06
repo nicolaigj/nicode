@@ -9,7 +9,7 @@
 	let to = YYYYMM(period.to);
 </script>
 
-<div>
+<span>
 	<time datetime={from}>{from}</time>
 	-
 	{#if period.to}
@@ -17,10 +17,10 @@
 	{:else}
 		<time>present</time>
 	{/if}
-</div>
+</span>
 
 <style>
-	div {
+	span {
 		display: flex;
 		gap: 1em;
 		font-size: 0.9em;

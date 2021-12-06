@@ -3,14 +3,14 @@
 type ConsultantType = {
 	name: string;
 	headshot: string;
-	intro: Intro;
+	contact: ContactType;
+	preamble: string;
 	availability: string;
 	focus: string;
 	projects: ProjectType[];
 };
 
-type IntroType = {
-	preamble: string;
+type ContactType = {
 	email: string;
 	mobile: string;
 	linkedin: string;

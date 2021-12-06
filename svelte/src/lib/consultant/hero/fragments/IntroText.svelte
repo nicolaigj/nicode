@@ -1,12 +1,12 @@
 <script lang="ts">
 	export let consultant: ConsultantType;
 
-	$: ({ preamble, email, mobile, linkedin } = consultant.intro);
+	$: ({ email, mobile, linkedin } = consultant.contact);
 </script>
 
 <div>
 	<p>
-		Hi i am <span class="name">{consultant.name}</span>, {preamble}
+		Hi i am <span class="name">{consultant.name}</span>, {consultant.preamble}
 	</p>
 
 	<address>
@@ -41,7 +41,7 @@
 	address {
 		display: flex;
 		flex-flow: column;
-		gap: 0.1em;
+		gap: 0.25em;
 		font-size: 0.8em;
 		justify-content: space-between;
 	}
@@ -49,28 +49,40 @@
 		display: flex;
 		gap: 5px;
 		font-size: 1em;
+		text-decoration: none;
 	}
 	address a span {
 		padding: 0.2em 0.4em;
-		border-radius: var(--b-radius);
 	}
-	address a:hover span:first-of-type {
-		text-decoration: none;
-		background-color: var(--color-interact);
+
+	address a span:first-child {
+		border: 2px solid var(--color-interactive);
+		border-radius: 999px;
+		width: 2em;
+		height: 2em;
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+
+		transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+	}
+	address a:hover span:first-child {
+		transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+		background-color: var(--color-interactive);
 		color: var(--color-background);
 	}
 
 	div {
 		display: flex;
 		flex-direction: column;
-		gap: 1em;
+		justify-content: space-between;
+		gap: 0.5em;
 		font-size: 1.5em;
 		max-width: 500px;
 	}
 	@media (max-width: 600px) {
 		div {
 			max-width: 300px;
-			text-align: justify;
 		}
 	}
 </style>

@@ -18,12 +18,11 @@
 <style>
 	div {
 		display: flex;
-		gap: 2.5em;
 		align-items: center;
-		justify-content: space-evenly;
+		gap: 2em;
 	}
 
-	@media (max-width: 480px) {
+	@media (max-width: 600px) {
 		div {
 			flex-direction: column;
 		}

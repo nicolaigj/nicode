@@ -2,19 +2,16 @@ export const consultants: ConsultantType[] = [
 	{
 		name: 'Nicolai',
 		headshot: 'hs/nicolai.webp',
-		intro: {
-			preamble: 'a developer with a passion for people and technology. ',
+		contact: {
 			email: 'nicolai@gjellestad.net',
 			mobile: '+4799428603',
 			linkedin: 'ngjellestad'
 		},
-
+		preamble: 'a developer with a passion for people and technology. ',
 		availability:
-			"I'm available for full time projects from August 2022, but I may be open for smaller projects before this. Contact me!",
-
+			"I'm available for full time projects from August 2022, but I may be open for smaller projects before this.",
 		focus:
 			"I'm mainly a backend developer focusing on C# and Go, but I delve into functional front end programming with Elm on my spare time. Lately I've built API's and serverless functions in C# and a high performance real-time bidder in Go. I have experience as a project manager and tech lead, I care about making people and teams do great stuff while having a good time.",
-
 		projects: [
 			{
 				title: 'Team lead at Nurofy',
@@ -42,18 +39,15 @@ export const consultants: ConsultantType[] = [
 	{
 		name: 'Hans',
 		headshot: 'hs/hans.webp',
-		intro: {
-			preamble: 'a developer with a passion for making great user experiences.',
+		contact: {
 			email: 'box@melaa.net',
 			mobile: '+4748149606',
 			linkedin: ''
 		},
-
-		availability: "I'm available for full time projects from January 2022. Contact me!",
-
+		preamble: 'a developer with a passion for making great user experiences.',
+		availability: "I'm available for full time projects from January 2022.",
 		focus:
 			'As a developer focusing on frontend and user experience, it is important for me that communication is clear, not only to the end user but also in such a way that I am enabling all stakeholders to do great. I have a knack for data wrangling and love cooking up a script in Python and have it look great in a JavaScript based frontend. Lately I have been working on a programmatic advertisement platform written in Svelte.',
-
 		projects: [
 			{
 				title: 'Developer and tech lead at Nurofy',
