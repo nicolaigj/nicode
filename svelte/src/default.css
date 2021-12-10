@@ -128,14 +128,3 @@ ul {
 	padding: 0;
 	margin: 0;
 }
-
-@keyframes enter-left {
-	0% {
-		opacity: 0;
-		filter: hue-rotate(180deg);
-		transform: translateX(-100px);
-	}
-	50% {
-		opacity: 0.3;
-	}
-}

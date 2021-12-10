@@ -40,12 +40,11 @@
 
 		/* hack to hide alt text if load fail (aviid layout shift uglyness) */
 		color: rgba(0, 0, 0, 0);
-		animation: fadeInAlt 0.2s 0.3s ease-in-out forwards;
+		animation: fadeInAltAttr 0.2s 0.3s ease-in-out forwards;
 
-		/* blue tint */
-		filter: sepia(1) hue-rotate(170deg) grayscale(0.7);
+		filter: sepia(1) hue-rotate(170deg) brightness(0.9) saturate(0.5);
 	}
-	@keyframes fadeInAlt {
+	@keyframes fadeInAltAttr {
 		to {
 			color: var(--color-content);
 		}

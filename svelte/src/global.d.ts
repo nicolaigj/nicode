@@ -19,11 +19,22 @@ type ContactType = {
 type ProjectType = {
 	title: string;
 	description: string;
-	period: Period;
+	period: PeriodType;
 	tags: string[];
 };
 
 type PeriodType = {
-	from: Date;
-	to: Date;
+	from: string;
+	to: string;
+};
+
+//
+
+type BlogPostType = {
+	visible: boolean;
+	published: string;
+	tags: string[];
+	title: string;
+	preamble: string;
+	content: string;
 };

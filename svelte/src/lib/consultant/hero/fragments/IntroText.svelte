@@ -50,6 +50,7 @@
 		gap: 5px;
 		font-size: 1em;
 		text-decoration: none;
+		width: min-content;
 	}
 	address a span {
 		padding: 0.2em 0.4em;

@@ -7,23 +7,21 @@
 </script>
 
 {#if consultant}
-	<Section hideTitle title={consultant.name}>
-		<div>
-			<Headshot {consultant} />
-			<IntroText {consultant} />
-		</div>
-	</Section>
+	<section>
+		<Headshot {consultant} />
+		<IntroText {consultant} />
+	</section>
 {/if}
 
 <style>
-	div {
+	section {
 		display: flex;
 		align-items: center;
 		gap: 2em;
 	}
 
 	@media (max-width: 600px) {
-		div {
+		section {
 			flex-direction: column;
 		}
 	}

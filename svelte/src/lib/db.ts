@@ -1,4 +1,4 @@
-export const consultants: ConsultantType[] = [
+export const consultants = [
 	{
 		name: 'Nicolai',
 		headshot: 'hs/nicolai.webp',
@@ -71,5 +71,21 @@ export const consultants: ConsultantType[] = [
 				tags: ['JavaScript', 'Svelte', 'Adobe Illustrator']
 			}
 		]
+	}
+];
+
+export const blogPosts = [
+	{
+		visible: true,
+		published: '2020-01-01',
+		tags: ['javascript', 'web', 'frontend'],
+		title: 'The future of the web',
+		preamble: 'How your cat is planning to take over the world',
+		content: `
+			Cats are going to be the future of the web.
+			The future of the web is a lot more than just a browser.
+			It is a platform that enables us to create content, communicate, and interact with each other.
+			The future of the web is a platform that enables us to create content, communicate, and interact with each other.
+		`
 	}
 ];

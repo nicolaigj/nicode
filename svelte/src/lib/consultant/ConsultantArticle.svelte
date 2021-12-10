@@ -2,14 +2,14 @@
 	import Projects from './projects/Projects.svelte';
 	import ConsultantHeroSection from './hero/ConsultantHeroSection.svelte';
 	import Section from '$lib/wrappers/Section.svelte';
-	import ContentArticle from '$lib/wrappers/ContentArticle.svelte';
+	import Article from '$lib/wrappers/Article.svelte';
 
 	export let consultant: ConsultantType;
 
-	let { availability, focus, name } = consultant;
+	let { availability, focus } = consultant;
 </script>
 
-<ContentArticle>
+<Article>
 	<ConsultantHeroSection {consultant} />
 
 	<Section title="About Me">
@@ -24,7 +24,7 @@
 	<Section title="Experience and projects">
 		<Projects {consultant} />
 	</Section>
-</ContentArticle>
+</Article>
 
 <style>
 	p:nth-of-type(2) {

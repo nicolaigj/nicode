@@ -1,4 +1,4 @@
-<svg width="0" height="0" style="position: absolute;">
+<svg width="0" height="0" style="position: absolute;" aria-hidden="true">
 	<defs>
 		<filter id="ca">
 			<feColorMatrix

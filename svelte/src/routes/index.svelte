@@ -1,24 +1,29 @@
-<script lang="ts">
-	import { consultants } from '$lib/db';
-	import ContentArticle from '$lib/wrappers/ContentArticle.svelte';
-	import { prefetchRoutes } from '$app/navigation';
-	import { onMount } from 'svelte';
-	import Section from '$lib/wrappers/Section.svelte';
+<script context="module" lang="ts">
+	export const load = async ({ fetch }) => {
+		const res = await fetch(`/\.json`);
+		console.log('->', res.url);
 
-	onMount(() => {
-		prefetchRoutes(consultants.map((c) => c.name));
-	});
+		if (!res.ok) return;
+
+		const { consultants } = await res.json();
+
+		return { props: { consultants } };
+	};
+</script>
+
+<script lang="ts">
+	import Article from '$lib/wrappers/Article.svelte';
+	import Section from '$lib/wrappers/Section.svelte';
+	export let consultants;
 </script>
 
 <svelte:head>
 	<title>nicode</title>
 </svelte:head>
 
-<ContentArticle title="Nicode">
+<Article>
 	<Section title="Welcome to nicode!">
 		<p>We are a tiny consultancy firm focused on people as much as code.</p>
-	</Section>
-	<Section title="Developers">
 		<div>
 			{#each consultants as consultant}
 				<a sveltekit:prefetch href={consultant.name}>
@@ -27,7 +32,7 @@
 			{/each}
 		</div>
 	</Section>
-</ContentArticle>
+</Article>
 
 <style>
 	a {
