@@ -1,34 +1,37 @@
 <script lang="ts">
 	import Projects from './projects/Projects.svelte';
 	import ConsultantHeroSection from './hero/ConsultantHeroSection.svelte';
-	import Section from '$lib/wrappers/Section.svelte';
-	import Article from '$lib/wrappers/Article.svelte';
+	import HashSection from '$lib/wrappers/HashSection.svelte';
 
 	export let consultant: ConsultantType;
 
 	let { availability, focus } = consultant;
 </script>
 
-<Article>
+<article class="article fadein">
 	<ConsultantHeroSection {consultant} />
 
-	<Section title="About Me">
+	<HashSection title="About Me">
 		<p>
 			{focus}
 		</p>
 		<p>
 			{availability} <a href="mailto:{consultant.contact.email}">Contact me!</a>
 		</p>
-	</Section>
+	</HashSection>
 
-	<Section title="Experience and projects">
+	<HashSection title="Experience and projects">
 		<Projects {consultant} />
-	</Section>
-</Article>
+	</HashSection>
+</article>
 
 <style>
 	p:nth-of-type(2) {
 		margin-top: 1em;
 		font-style: italic;
+	}
+
+	article {
+		gap: var(--section-space);
 	}
 </style>

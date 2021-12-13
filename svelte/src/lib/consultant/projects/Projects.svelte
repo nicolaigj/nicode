@@ -24,53 +24,41 @@
 		display: flex;
 		flex-direction: column;
 		margin: 1em 0;
+
+		counter-reset: project;
 	}
 	li + li {
 		margin-top: 4em;
 	}
 	li {
 		position: relative;
-		padding: 1em;
+
 		display: flex;
 		flex-direction: column;
 		font-size: 0.9em;
-		counter-increment: projex;
-	}
-	@media (min-width: 1100px) {
-		li {
-			padding: 1.5em;
-		}
+
+		counter-increment: project;
 	}
 
-	li::before {
+	li::after {
+		content: counter(project);
 		position: absolute;
-		box-sizing: border-box;
-		border: 1px solid var(--color-accent);
-		content: '';
-		z-index: -1;
+		left: 0;
+		top: -0.2em;
+		bottom: 0;
 		right: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-		border-radius: 6px;
 
-		--left: 0.7em;
-		--right: calc(var(--left) + 10.3em);
+		margin: auto;
+		width: min-content;
+		height: min-content;
 
-		clip-path: polygon(
-			-2% -2%,
-			var(--left) -2%,
-			var(--left) 10%,
-			var(--right) 10%,
-			var(--right) -2%,
-			102% -2%,
-			102% 102%,
-			-2% 102%
-		);
-	}
+		color: var(--color-background);
+		text-shadow: inset 5px 5px 10px var(--color-accent);
+		font-size: 12em;
+		font-weight: bold;
 
-	.period {
-		position: absolute;
-		top: -0.7em;
+		opacity: 0.5;
+
+		z-index: -1;
 	}
 </style>

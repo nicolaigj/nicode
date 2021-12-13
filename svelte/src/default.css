@@ -52,7 +52,7 @@ body {
 	line-height: 1.6;
 	letter-spacing: 0.05em;
 
-	font-size: clamp(0.8rem, 2vw, 1.4rem);
+	font-size: clamp(0.7rem, 2vw, 1.4rem);
 
 	/* reset box sizing on body */
 	box-sizing: border-box;
@@ -100,6 +100,7 @@ h5,
 h6 {
 	margin: 0;
 }
+
 h1 {
 	font-size: 2.2em;
 }
@@ -127,4 +128,25 @@ ul {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+}
+
+@keyframes item-fade-in {
+	0% {
+		opacity: 0;
+		transform: translateX(-30px);
+	}
+}
+.fadein {
+	animation: item-fade-in 0.15s ease-out backwards;
+}
+
+.article {
+	display: flex;
+	flex-direction: column;
+
+	width: 100%;
+	max-width: var(--main-content-width);
+
+	padding: var(--box-space);
+	margin: calc(var(--section-space) / 2) 0;
 }

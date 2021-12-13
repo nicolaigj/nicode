@@ -19,9 +19,6 @@
 </footer>
 
 <style>
-	:global(body) {
-		font-family: Archivo, sans-serif;
-	}
 	header,
 	main,
 	footer {
@@ -29,7 +26,7 @@
 		flex-direction: column;
 		align-items: center;
 
-		max-width: var(--max-width);
+		max-width: var(--site-width);
 		margin: 0 auto;
 		width: 100%;
 	}
@@ -37,23 +34,25 @@
 	footer {
 		z-index: 11;
 	}
+
+	header {
+		padding: calc(var(--box-space) / 2) var(--box-space) 0;
+	}
 	main {
 		flex: auto;
 		position: relative;
 		z-index: 10;
-		margin: 3em auto;
 	}
 	footer {
-		margin-top: 1em;
-		padding: 0.5em 1em;
+		padding: var(--box-space) var(--box-space) calc(var(--box-space) / 2);
 
 		color: var(--color-content);
 	}
 
 	footer > p {
-		max-width: var(--main-content-width);
+		max-width: var(--site-width);
 		width: 100%;
-		font-size: 0.65em;
-		opacity: 0.5;
+		font-size: 0.5em;
+		opacity: 0.75;
 	}
 </style>

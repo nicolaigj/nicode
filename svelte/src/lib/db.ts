@@ -1,5 +1,6 @@
-export const consultants = [
+export const consultants: ConsultantType[] = [
 	{
+		visible: true,
 		name: 'Nicolai',
 		headshot: 'hs/nicolai.webp',
 		contact: {
@@ -37,6 +38,7 @@ export const consultants = [
 		]
 	},
 	{
+		visible: true,
 		name: 'Hans',
 		headshot: 'hs/hans.webp',
 		contact: {
@@ -74,7 +76,7 @@ export const consultants = [
 	}
 ];
 
-export const blogPosts = [
+export const blogPosts: BlogPostType[] = [
 	{
 		visible: true,
 		published: '2020-01-01',

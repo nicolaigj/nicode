@@ -1,6 +1,7 @@
 /// <reference types="@sveltejs/kit" />
 
 type ConsultantType = {
+	visible: boolean;
 	name: string;
 	headshot: string;
 	contact: ContactType;
@@ -11,9 +12,10 @@ type ConsultantType = {
 };
 
 type ContactType = {
-	email: string;
-	mobile: string;
-	linkedin: string;
+	email?: string;
+	mobile?: string;
+	linkedin?: string;
+	github?: string;
 };
 
 type ProjectType = {
@@ -25,16 +27,23 @@ type ProjectType = {
 
 type PeriodType = {
 	from: string;
-	to: string;
+	to?: string;
 };
 
 //
 
 type BlogPostType = {
 	visible: boolean;
+	author: string;
 	published: string;
 	tags: string[];
 	title: string;
-	preamble: string;
 	content: string;
+	meta?: PostMetaType;
+};
+
+type PostMetaType = {
+	readability: number;
+	readingTime: number;
+	wordCount: number;
 };

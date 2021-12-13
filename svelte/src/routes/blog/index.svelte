@@ -1,34 +1,26 @@
 <script context="module" lang="ts">
-	import type { Load, LoadInput, LoadOutput } from '@sveltejs/kit';
-	export const load: Load = async ({ fetch }: LoadInput) => {
-		const res = await fetch(`blog.json`);
-
-		if (!res.ok) return;
-
-		const { availablePosts } = await res.json();
-
-		return { props: { availablePosts } } as LoadOutput;
+	import type { Load } from '@sveltejs/kit';
+	export const load: Load = async ({ stuff }) => {
+		const posts: BlogPostType[] = stuff.posts;
+		return { props: { posts } };
 	};
 </script>
 
 <script lang="ts">
-	import Article from '$lib/wrappers/Article.svelte';
-	export let availablePosts: Pick<BlogPostType, 'title' | 'published'>[];
+	export let posts: BlogPostType[];
 </script>
 
-<Article>
-	<h1>Log</h1>
+<article class="article fadein">
+	<h1>Blog</h1>
 	<ul>
-		{#each availablePosts as { title, published }}
+		{#each posts as { title, published }}
 			<li>
 				<span>{published}</span>
 				<a href="blog/{title}">{title}</a>
 			</li>
-		{:else}
-			<li>No logs</li>
 		{/each}
 	</ul>
-</Article>
+</article>
 
 <style>
 	ul {

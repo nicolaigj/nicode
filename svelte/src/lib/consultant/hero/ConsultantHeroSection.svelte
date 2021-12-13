@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Section from '$lib/wrappers/Section.svelte';
 	import IntroText from './fragments/IntroText.svelte';
 	import Headshot from './fragments/Headshot.svelte';
 

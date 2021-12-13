@@ -1,9 +1,7 @@
-import { consultants } from '$lib/db';
+import { consultants as _consultants } from '$lib/db';
 
 export const get = async () => {
-	console.log('aaaaaa');
+	const consultants = _consultants.filter((consultant) => consultant.visible);
 
-	if (consultants && consultants.length) {
-		return { body: { consultants } };
-	}
+	return { body: { consultants } };
 };

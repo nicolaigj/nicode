@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
-	export const load = async ({ page, fetch }) => {
+	import type { Load } from '@sveltejs/kit';
+	export const load: Load = async ({ page, fetch }) => {
 		const res = await fetch(`${page.params.consultantName}.json`);
 
 		if (!res.ok) return;

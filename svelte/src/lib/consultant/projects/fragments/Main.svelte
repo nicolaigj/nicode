@@ -11,7 +11,7 @@
 
 <style>
 	p {
-		font-size: 0.9em;
-		margin: 1em 0 2em;
+		font-size: 1em;
+		margin: 1em 0;
 	}
 </style>

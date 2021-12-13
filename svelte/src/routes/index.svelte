@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
-	export const load = async ({ fetch }) => {
-		const res = await fetch(`/\.json`);
-		console.log('->', res.url);
+	import type { Load } from '@sveltejs/kit';
+	export const load: Load = async ({ fetch }) => {
+		const res = await fetch(`index.json`);
 
 		if (!res.ok) return;
 
@@ -12,8 +12,7 @@
 </script>
 
 <script lang="ts">
-	import Article from '$lib/wrappers/Article.svelte';
-	import Section from '$lib/wrappers/Section.svelte';
+	import HashSection from '$lib/wrappers/HashSection.svelte';
 	export let consultants;
 </script>
 
@@ -21,8 +20,8 @@
 	<title>nicode</title>
 </svelte:head>
 
-<Article>
-	<Section title="Welcome to nicode!">
+<article class="article fadein">
+	<HashSection title="Welcome to nicode!">
 		<p>We are a tiny consultancy firm focused on people as much as code.</p>
 		<div>
 			{#each consultants as consultant}
@@ -31,8 +30,8 @@
 				</a>
 			{/each}
 		</div>
-	</Section>
-</Article>
+	</HashSection>
+</article>
 
 <style>
 	a {
@@ -43,6 +42,9 @@
 	}
 	div {
 		display: flex;
+		flex-wrap: wrap;
+		width: 100%;
 		gap: 1em;
+		margin: 2em auto;
 	}
 </style>

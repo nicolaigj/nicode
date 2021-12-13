@@ -18,7 +18,6 @@
 		flex-wrap: wrap;
 		align-items: center;
 
-		font-size: 0.8em;
 		gap: 0.5em;
 	}
 	ul::before,

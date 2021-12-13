@@ -1,19 +1,28 @@
 :root {
 	--color-content: #465a7b;
 	--color-background: #e4efff;
-	--color-interactive: #28a588;
-	--color-accent: #80adb6;
+	--color-interactive: #069574;
+	--color-accent: #c2d6f2;
 
 	/* set a size basis for main content */
 	--main-content-width: 960px;
-	--max-width: 2560px;
+	--site-width: 2560px;
+
+	/* minimum padding space for content not supposed to touch the window edge*/
+	--box-space: 2em;
+	/* space between each section of a page */
+	--section-space: 6em;
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
 		--color-content: #c9d9ee;
-		--color-background: #171f2b;
+		--color-background: #151f28;
 		--color-interactive: #00c396;
 		--color-accent: #325c70;
 	}
+}
+
+body {
+	font-family: Archivo, sans-serif;
 }
