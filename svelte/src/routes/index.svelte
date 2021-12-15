@@ -12,6 +12,7 @@
 </script>
 
 <script lang="ts">
+	import BackgroundImage from '$lib/backdrops/BackgroundImage.svelte';
 	import HashSection from '$lib/wrappers/HashSection.svelte';
 	export let consultants: ConsultantType[];
 </script>
@@ -20,18 +21,19 @@
 	<title>nicode</title>
 </svelte:head>
 
-<article class="article fadein">
-	<HashSection title="Welcome to nicode!">
-		<p>We are a tiny consultancy firm focused on people as much as code.</p>
-		<div>
-			{#each consultants as consultant}
-				<a sveltekit:prefetch href={consultant.name}>
-					<span>{consultant.name}</span>
-				</a>
-			{/each}
-		</div>
-	</HashSection>
+<article class="article fadein paper">
+	<h1>Welcome to nicode!</h1>
+	<p>We are a tiny consultancy firm focused on people as much as code.</p>
+	<div>
+		{#each consultants as consultant}
+			<a sveltekit:prefetch href={consultant.name}>
+				<span>{consultant.name}</span>
+			</a>
+		{/each}
+	</div>
 </article>
+
+<BackgroundImage variation={4} />
 
 <style>
 	a {
