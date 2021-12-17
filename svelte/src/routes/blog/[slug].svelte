@@ -31,7 +31,7 @@
 		</span>
 	</div>
 
-	<article class="article fadein paper">
+	<article class="page fadein paper">
 		<div>
 			<h1>
 				{post.title}

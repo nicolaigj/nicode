@@ -1,3 +1,6 @@
+// this endpoint is disabled
+// to enable it, remove the underscore in the file name
+
 type LocationType = {
 	lat: number;
 	lon: number;

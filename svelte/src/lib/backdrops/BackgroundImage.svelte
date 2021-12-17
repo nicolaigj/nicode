@@ -1,5 +1,5 @@
 <script lang="ts">
-	type BackgroundVariation = 1 | 2 | 3 | 4;
+	type BackgroundVariation = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 	export let variation: BackgroundVariation = 4;
 </script>
 
@@ -17,29 +17,30 @@
 		background-size: cover;
 		background-repeat: no-repeat;
 		background-position: center;
-		opacity: 0.2;
 	}
 	.b1 {
 		background-image: image-set(url('/bgs/opt1.webp') 1x, url('/bgs/opt1.jpg') 1x);
 		background-image: -webkit-image-set(url('/bgs/opt1.webp') 1x, url('/bgs/opt1.jpg') 1x);
+		opacity: 0.1;
 	}
 	.b2 {
 		background-image: image-set(url('/bgs/opt2.webp') 1x, url('/bgs/opt2.jpg') 1x);
 		background-image: -webkit-image-set(url('/bgs/opt2.webp') 1x, url('/bgs/opt2.jpg') 1x);
+		opacity: 0.25;
 	}
 	.b3 {
 		background-image: image-set(url('/bgs/opt3.webp') 1x, url('/bgs/opt3.jpg') 1x);
 		background-image: -webkit-image-set(url('/bgs/opt3.webp') 1x, url('/bgs/opt3.jpg') 1x);
+		opacity: 0.12;
 	}
-
 	.b4 {
 		background-image: image-set(url('/bgs/opt4.webp') 1x, url('/bgs/opt4.jpg') 1x);
 		background-image: -webkit-image-set(url('/bgs/opt4.webp') 1x, url('/bgs/opt4.jpg') 1x);
+		opacity: 0.15;
 	}
-
-	@media (prefers-color-scheme: dark) {
-		div {
-			opacity: 0.15;
-		}
+	.b5 {
+		background-image: image-set(url('/bgs/opt5.webp') 1x, url('/bgs/opt5.jpg') 1x);
+		background-image: -webkit-image-set(url('/bgs/opt5.webp') 1x, url('/bgs/opt5.jpg') 1x);
+		opacity: 0.1;
 	}
 </style>
