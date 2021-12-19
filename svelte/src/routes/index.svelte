@@ -12,7 +12,7 @@
 </script>
 
 <script lang="ts">
-	import BackgroundImage from '$lib/backdrops/BackgroundImage.svelte';
+	import Background from '$lib/backdrops/Background.svelte';
 	import ConsultantCta from '$lib/consultant/nav/ConsultantCta.svelte';
 
 	export let consultants: ConsultantType[];
@@ -22,13 +22,15 @@
 	<title>nicode</title>
 </svelte:head>
 
-<BackgroundImage variation={2} />
+<Background bgvariation={2} />
 
 <article class="page">
 	<h1><span>Welcome to</span> <span>nicode</span></h1>
 	<div>
 		<p>
-			<span> We are a tiny consultancy firm focused on people as much as code. </span>
+			<span>
+				We are a tiny consultancy firm focused on people as much as code<span class="blnk">_</span>
+			</span>
 		</p>
 		<ConsultantCta {consultants} />
 	</div>
@@ -67,6 +69,18 @@
 		}
 		article {
 			align-items: center;
+		}
+	}
+
+	.blnk {
+		animation: blink ease-in-out 0.66s infinite alternate;
+	}
+	@keyframes blink {
+		0% {
+			opacity: 0;
+		}
+		70% {
+			opacity: 1;
 		}
 	}
 </style>
