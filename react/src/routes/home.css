@@ -1,0 +1,50 @@
+.home section {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1em;
+}
+
+.home section > p {
+  width: calc(50% - 1em);
+  max-width: 23ch;
+}
+
+.home p:first-of-type {
+  margin: auto 0;
+}
+
+.home p > span:first-child {
+  margin-bottom: 0.5em;
+}
+
+.home p > span:nth-child(2) {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  gap: 1em;
+}
+
+.home p a {
+  padding: 0.5em 1em;
+  border-radius: 6px;
+  border: 1px solid var(--color-interactive);
+}
+
+.home section > p:first-child::after {
+  content: "_";
+  animation: blink 0.555s ease infinite alternate;
+}
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 700px) {
+  .home section > p {
+    width: 100%;
+  }
+}
